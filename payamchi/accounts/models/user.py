@@ -21,7 +21,7 @@ class User(AbstractUser):
         _('نام کاربری'),
         max_length=150,
         unique=True,
-        help_text=_(  'حداکثر ۱۵۰ کاراکتر شامل حروف و اعداد'),
+        help_text=_('حداکثر ۱۵۰ کاراکتر شامل حروف و اعداد'),
         validators=[AbstractUser.username_validator],
         error_messages={
             'unique': _("یک کاربر با این نام کاربری وجود دارد"),
@@ -62,4 +62,5 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['email']
 
     class Meta:
-        verbose_name = 'User'
+        verbose_name = 'کاربر'
+        verbose_name_plural = 'کاربران'
