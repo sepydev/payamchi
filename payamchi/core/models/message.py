@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from .base_model import BaseModel
 from .campaign import Campaign
 from .message_template import MessageTemplate, MessageTypeChoices
+from .message_define_lable import MessageDefineLabel
 
 User = get_user_model()
 
@@ -50,6 +51,10 @@ class Message(BaseModel):
     send_effort_delay = models.PositiveIntegerField(
         verbose_name=_('تاخیر ارسال پیام'),
         default=600
+    )
+    labels = models.ManyToManyField(
+        MessageDefineLabel,
+        verbose_name=_('برچسب ها'),
     )
 
     class Meta:
