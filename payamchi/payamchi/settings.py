@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     # 3d party apps
 
     # local apps
-    # 'core.apps.CoreConfig',
-    # 'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig',
+    'accounts.apps.AccountsConfig',
 
 ]
 
@@ -126,4 +126,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
-# AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
