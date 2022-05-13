@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
+from .contact_define_label import ContactDefineLabel
 from .base_model import BaseModel
 
 User = get_user_model()
@@ -15,6 +15,12 @@ class Contact(BaseModel):
     telegram_id = models.CharField(verbose_name=_('تلگرام'), max_length=20, blank=True, null=True)
     whatsapp_id = models.CharField(verbose_name=_('واتس اپ'), max_length=20, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('نام کاربری'))
+    labels = models.ManyToManyField(
+        ContactDefineLabel,
+        verbose_name=_('برچسب ها'),
+        blank=True,
+
+    )
 
     class Meta:
         verbose_name = 'مخاطب'

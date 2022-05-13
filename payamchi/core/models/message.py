@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from .base_model import BaseModel
 from .campaign import Campaign
 from .message_template import MessageTemplate, MessageTypeChoices
-from .message_define_lable import MessageDefineLabel
+from .message_define_label import MessageDefineLabel
 
 User = get_user_model()
 
@@ -55,6 +55,7 @@ class Message(BaseModel):
     labels = models.ManyToManyField(
         MessageDefineLabel,
         verbose_name=_('برچسب ها'),
+        blank=True,
     )
 
     class Meta:

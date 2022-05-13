@@ -7,6 +7,7 @@ from .models import (
     Message,
     MessageReceiver,
     MessageDefineLabel,
+    ContactDefineLabel,
 )
 
 admin.site.register(Contact)
@@ -15,3 +16,4 @@ admin.site.register(Campaign)
 admin.site.register(Message)
 admin.site.register(MessageReceiver)
 admin.site.register(MessageDefineLabel)
+admin.site.register(ContactDefineLabel)
