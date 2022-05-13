@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from .contact_define_label import ContactDefineLabel
+
 from .base_model import BaseModel
+from .contact_define_label import ContactDefineLabel
 
 User = get_user_model()
 
