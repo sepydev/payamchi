@@ -1,11 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import get_user_model
+
+from .base_model import BaseModel
 
 User = get_user_model()
 
 
-class Contact(models.Model):
+class Contact(BaseModel):
     caption = models.CharField(verbose_name=_('عنوان'), max_length=250)
     mobile = models.CharField(verbose_name=_('موبایل'), max_length=11, blank=True, null=True)
     tel = models.CharField(verbose_name=_('تلفن'), max_length=13, blank=True, null=True)
