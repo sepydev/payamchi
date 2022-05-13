@@ -3,24 +3,31 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .base_model import StatusChoices
+from .base_model import BaseModel
 from .campaign import Campaign
 from .message_template import MessageTemplate, MessageTypeChoices
 
 User = get_user_model()
 
 
-class Message(models.Model):
+class MessageStatusChoices(models.IntegerChoices):
+    DRAFT = 1, 'پیشنویس'
+    READY_TO_SEND = 2, 'آماده ارسال'
+    CONFIRM = 3, 'تایید'
+    SEND = 4, 'ارسال'
+    DELIVER = 5, 'دلیور شده'
+    CANCEL = 6, 'لغو شده'
+
+
+class Message(BaseModel):
     caption = models.CharField(verbose_name=_('عنوان'), max_length=250)
-    create_date = models.DateTimeField(verbose_name=_('تاریخ ایجاد'), auto_now_add=True)
-    modify_date = models.DateTimeField(verbose_name='تاریخ آخرین ویرایش', auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('نام کاربری'))
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name=_('کمپین'))
     send_date = models.DateTimeField(verbose_name=_('تاریخ ارسال'))
     status = models.IntegerField(
         verbose_name=_('وضعیت'),
-        choices=StatusChoices.choices,
-        default=StatusChoices.DRAFT.value
+        choices=MessageStatusChoices.choices,
+        default=MessageStatusChoices.DRAFT.value
     )
     cost = models.BigIntegerField(verbose_name=_('هزینه پیام'))
     message_type = models.CharField(
