@@ -43,7 +43,7 @@ class User(AbstractUser):
     mobile = models.CharField(_('موبایل'), max_length=11, blank=True)
     ir_code = models.CharField(_('کد ملی'), max_length=10, blank=True)
     father = models.CharField(_('نام پدر'), max_length=150, blank=True)
-    register_date = models.DateTimeField(_('تاریخ ثبت نام'), auto_now=True)
+    register_date = models.DateTimeField(_('تاریخ ثبت نام'), auto_now_add=True)
     role = models.CharField(
         _('نقش'),
         choices=RoleChoices.choices,
