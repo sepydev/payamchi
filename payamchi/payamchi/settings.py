@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+from dotenv import dotenv_values
+
+env = dotenv_values("payamchi/.env")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# from payamchi.core.models.base_model import BaseModel
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-hugb((otjg^i2%nlfay98y*5o!-@hcex2^$z(8c+f67(hpp#w4'
+SECRET_KEY = env["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # 3d party apps
+    'crispy_forms',
+    'jalali_date',
+    'dotenv',
 
     # local apps
     'core.apps.CoreConfig',
@@ -60,7 +68,7 @@ ROOT_URLCONF = 'payamchi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,6 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -127,3 +138,34 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 AUTH_USER_MODEL = 'accounts.User'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+JALALI_DATE_DEFAULTS = {
+    'Strftime': {
+        'date': '%y/%m/%d',
+        'datetime': '%H:%M:%S _ %y/%m/%d',
+    },
+    'Static': {
+        'js': [
+            # loading datepicker
+            'admin/js/django_jalali.min.js',
+            # OR
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/calendar.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js',
+            # 'admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js',
+            # 'admin/js/main.js',
+        ],
+        'css': {
+            'all': [
+                'admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css',
+            ]
+        }
+    },
+}
+
+SMS_CONFIG = {
+    'API_KEY': env['SMS_API_KEY'],
+    'ORIGINATOR': env['SMS_ORIGINATOR'],
+}

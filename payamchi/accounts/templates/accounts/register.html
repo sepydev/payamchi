@@ -1,0 +1,23 @@
+{% extends 'account_base.html' %}
+{% block title %}
+    ثبت نام
+{% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load jalali_tags %}
+
+
+
+
+{% block content %}
+    <h3 class="text-center mb-4">حساب خود را ثبت کنید</h3>
+    <form method="Post" novalidate>
+        {% csrf_token %}
+        {% crispy form %}
+{#              {{ form.as_p }}#}
+
+    </form>
+    <div class="new-account mt-3">
+        <p>قبلاً حساب دارید؟ <a class="text-primary" href="{% url 'accounts:login' %}">ورود</a></p>
+    </div>
+{% endblock %}
