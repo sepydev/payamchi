@@ -48,18 +48,18 @@ class LoginForm(forms.Form):
             css_class=''
         ),
         Div(
-            Submit('submit', 'وارد شوید', css_class='col-3 btn btn-primary btn-block'),
+            Submit('submit', 'وارد شوید', css_class='btn btn-primary btn-block'),
             css_class='text-center mt-4'
         ),
     )
 
-    def clean(self):
+    def clean_password(self):
         mobile = self.cleaned_data.get('mobile')
         password = self.cleaned_data.get('password')
         _user = authenticate(mobile=mobile, password=password)
         if not _user or not _user.is_active:
             raise forms.ValidationError("نام کاربری یا کلمه عبور صحیح نمی باشد.")
-        return self.cleaned_data
+        return password
 
     def login(self, request):
         mobile = self.cleaned_data.get('mobile')

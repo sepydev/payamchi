@@ -1,5 +1,6 @@
 from django.urls import path
 
+from .views.forget_password import ForgetPasswordView, ResetPasswordView
 from .views.login import LoginView
 from .views.register import RegisterView, RegisterConfirmView
 
@@ -9,7 +10,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('register-confirm/', RegisterConfirmView.as_view(), name='register_confirm'),
     path('login/', LoginView.as_view(), name='login'),
-    # to do create forget password form
-    path('forget-password/', RegisterConfirmView.as_view(), name='forget_password'),
+    path('forget-password/', ForgetPasswordView.as_view(), name='forget_password'),
+    path('reset-password/', ResetPasswordView.as_view(), name='reset_password'),
 
 ]

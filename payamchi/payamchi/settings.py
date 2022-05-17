@@ -14,8 +14,6 @@ from pathlib import Path
 
 from dotenv import dotenv_values
 
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # from payamchi.core.models.base_model import BaseModel
 
@@ -46,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'jalali_date',
     'dotenv',
+    'captcha',
 
     # local apps
     'core.apps.CoreConfig',
@@ -177,3 +176,14 @@ SMS_CONFIG = {
 CONFIRM_CODE_LENGTH = 6
 USE_TZ = True
 
+import random
+
+
+def random_digit_challenge():
+    ret = u''
+    for i in range(6):
+        ret += str(random.randint(0, 9))
+    return ret, ret
+
+
+CAPTCHA_CHALLENGE_FUNCT = random_digit_challenge
