@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from jalali_date.fields import JalaliDateField
 from jalali_date.widgets import AdminJalaliDateWidget
 
-from ..forms import ERROR_MESSAGES_REQUIRED
+from ..forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
 
 User = get_user_model()
 
@@ -15,22 +15,34 @@ class RegisterForm(forms.ModelForm):
                                  widget=AdminJalaliDateWidget,
                                  error_messages=ERROR_MESSAGES_REQUIRED,
                                  )
+    mobile = forms.CharField(
+        widget=forms.NumberInput(),
+        label='موبایل',
+        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+    )
+    ir_code = forms.CharField(
+        widget=forms.NumberInput(),
+        label='کد ملی',
+        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+    )
+
+
 
     helper = FormHelper()
     helper.layout = Layout(
         Row(
-            Column('first_name', css_calss='form-group'),
-            Column('last_name', css_calss='form-group'),
+            Column('first_name'),
+            Column('last_name'),
             css_class='form-row'
         ),
         Row(
-            Column(Field('mobile'), css_calss='form-group'),
-            Column(Field('ir_code'), css_calss='form-group'),
+            Column(Field('mobile', css_class='hide_arrow_number')),
+            Column(Field('ir_code', css_class='hide_arrow_number')),
             css_class='form-row'
         ),
         Row(
-            Column(Field('birth_date'), css_calss='form-group'),
-            Column(Field('father'), css_calss='form-group'),
+            Column(Field('birth_date')),
+            Column(Field('father')),
             css_class='form-row'
         ),
         Div(
@@ -50,9 +62,9 @@ class RegisterForm(forms.ModelForm):
             'father',
         )
         error_messages = {
-            'first_name': ERROR_MESSAGES_REQUIRED,
-            'last_name': ERROR_MESSAGES_REQUIRED,
-            'mobile': ERROR_MESSAGES_REQUIRED,
-            'ir_code': ERROR_MESSAGES_REQUIRED,
-            'birth_date': ERROR_MESSAGES_REQUIRED,
+            'first_name': {**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+            'last_name': {**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+            'mobile': {**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+            'ir_code': {**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+            'birth_date': {**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
         }

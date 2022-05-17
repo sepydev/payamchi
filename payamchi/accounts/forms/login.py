@@ -7,21 +7,21 @@ from crispy_forms.layout import (
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
 
-from ..forms import ERROR_MESSAGES_REQUIRED
+from ..forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
 
 User = get_user_model()
 
 
 class LoginForm(forms.Form):
     mobile = forms.CharField(
-        widget=forms.TextInput(),
+        widget=forms.NumberInput(),
         label='موبایل',
-        error_messages=ERROR_MESSAGES_REQUIRED,
+        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
     )
     password = forms.CharField(
         widget=forms.PasswordInput(),
         label='کلمه عبور',
-        error_messages=ERROR_MESSAGES_REQUIRED,
+        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
     )
     remember_me = forms.BooleanField(
         widget=forms.CheckboxInput(),
@@ -31,16 +31,16 @@ class LoginForm(forms.Form):
     helper = FormHelper()
     helper.layout = Layout(
         Div(
-            Field('mobile'),
+            Field('mobile', css_class='hide_arrow_number'),
             Field('password'),
             Row(
-                Column('remember_me', css_calss='form-group'),
+                Column('remember_me'),
                 Column(
                     HTML(
                         "<a class='text-primary' href=\"{% url 'accounts:forget_password' %}\">"
                         "رمز عبور خود را فراموش کرده اید؟</a>"
                     ),
-                    css_calss="form-group"
+                    css_class="form-group"
                 ),
                 css_class='form-row'
             ),
