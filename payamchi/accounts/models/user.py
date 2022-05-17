@@ -47,7 +47,7 @@ class User(AbstractUser):
     )
     ir_code = models.CharField(_('کد ملی'), max_length=10)
     father = models.CharField(_('نام پدر'), max_length=150, null=True, blank=True)
-    birth_date = models.DateTimeField(_('تاریخ تولد'))
+    birth_date = models.DateField(_('تاریخ تولد'))
     register_date = models.DateTimeField(_('تاریخ ثبت نام'), auto_now_add=True)
     role = models.CharField(
         _('نقش'),

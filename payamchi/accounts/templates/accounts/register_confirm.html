@@ -1,6 +1,6 @@
 {% extends 'account_base.html' %}
 {% block title %}
-تائید ثبت نام
+    تائید ثبت نام
 {% endblock %}
 {% load static %}
 {% load crispy_forms_tags %}
@@ -10,14 +10,26 @@
 
 
 {% block content %}
-    <h1>{{ register_user.mobile }}</h1>
-    <br/>
-    <h3 class=>شماره موبایلتان رابه تائید برسانید</h3>
-    <h5>کد امنیتی به شماره موبایل ({{ register_user.mobile }}) پیامک شده است . آن را وارد نمایید</h5>
-    <br>
-    <form method="Post" novalidate>
-        {% csrf_token %}
-        {% crispy form %}
+    <div class="col-md-10">
+        <div class="authincation-content">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="auth-form">
 
-    </form>
+                        <h1>{{ register_user.mobile }}</h1>
+                        <br/>
+                        <h3 class=>شماره موبایلتان رابه تائید برسانید</h3>
+                        <h5>کد امنیتی به شماره موبایل ({{ register_user.mobile }}) پیامک شده است . آن را وارد
+                            نمایید</h5>
+                        <br>
+                        <form method="Post" novalidate>
+                            {% csrf_token %}
+                            {% crispy form %}
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

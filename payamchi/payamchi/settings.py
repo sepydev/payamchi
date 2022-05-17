@@ -14,13 +14,13 @@ from pathlib import Path
 
 from dotenv import dotenv_values
 
-env = dotenv_values("payamchi/.env")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # from payamchi.core.models.base_model import BaseModel
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env = dotenv_values("payamchi/.env")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -88,8 +88,12 @@ WSGI_APPLICATION = 'payamchi.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env['DB_NAME'],
+        'USER': env['DB_USER'],
+        'PASSWORD': env['DB_PASSWORD'],
+        'HOST': env['DB_HOST'],
+        'PORT': env['DB_PORT'],
     }
 }
 
@@ -169,3 +173,7 @@ SMS_CONFIG = {
     'API_KEY': env['SMS_API_KEY'],
     'ORIGINATOR': env['SMS_ORIGINATOR'],
 }
+
+CONFIRM_CODE_LENGTH = 6
+USE_TZ = True
+
