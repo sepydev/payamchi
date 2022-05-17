@@ -1,0 +1,32 @@
+{% extends 'account_base.html' %}
+{% block title %}
+    ورود
+{% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load jalali_tags %}
+
+
+
+
+{% block content %}
+    <div class="col-md-6">
+        <div class="authincation-content">
+            <div class="row no-gutters">
+                <div class="col-xl-12">
+                    <div class="auth-form">
+                        <h3 class="text-center mb-4"></h3>
+                        <form method="Post" novalidate>
+                            {% csrf_token %}
+                            {% crispy form %}
+                        </form>
+                        <div class="new-account mt-3">
+                            <p>حساب ندارید؟ <a class="text-primary" href="{% url 'accounts:register' %}">ثبت نام</a></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
