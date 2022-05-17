@@ -24,16 +24,13 @@ class LoginView(views.View):
     def post(self, request):
         form = self.form(request.POST)
         if form.is_valid():
-            clean_data = form.cleaned_data
-            mobile = clean_data['mobile']
-            password = clean_data['password']
-            user = authenticate(request, mobile=mobile, password=password)
+            user = form.login(request)
+            remember_me = form.cleaned_data['remember_me']
             if user:
                 login(request, user)
-                # to do handel remember me
+                if not remember_me:
+                    request.session.set_expiry(0)
                 return redirect('core:home')
-            # to do if user pass invalid show error
-
         return render(
             request,
             template_name=self.template_name,

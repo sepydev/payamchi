@@ -5,7 +5,7 @@ from crispy_forms.layout import (
 
 )
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
 from ..forms import ERROR_MESSAGES_REQUIRED
 
@@ -52,3 +52,17 @@ class LoginForm(forms.Form):
             css_class='text-center mt-4'
         ),
     )
+
+    def clean(self):
+        mobile = self.cleaned_data.get('mobile')
+        password = self.cleaned_data.get('password')
+        _user = authenticate(mobile=mobile, password=password)
+        if not _user or not _user.is_active:
+            raise forms.ValidationError("نام کاربری یا کلمه عبور صحیح نمی باشد.")
+        return self.cleaned_data
+
+    def login(self, request):
+        mobile = self.cleaned_data.get('mobile')
+        password = self.cleaned_data.get('password')
+        _user = authenticate(mobile=mobile, password=password)
+        return _user
