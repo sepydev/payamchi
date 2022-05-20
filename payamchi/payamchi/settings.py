@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'jalali_date',
     'dotenv',
     'captcha',
+    'fontawesomefree',
+
 
     # local apps
     'core.apps.CoreConfig',
@@ -187,3 +189,4 @@ def random_digit_challenge():
 
 
 CAPTCHA_CHALLENGE_FUNCT = random_digit_challenge
+

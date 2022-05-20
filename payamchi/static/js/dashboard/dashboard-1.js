@@ -167,8 +167,7 @@
 				show: false
 			}
         };
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+
 	}
 	var ticketSoldChart = function(){
 			//#ticketSold
@@ -294,8 +293,6 @@
 			
 			load:function(){
 				activityBar();
-				donutChart();
-				ticketSoldChart();
 				peityPrimary();
 				scheduleEvent();
 			},

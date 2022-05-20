@@ -16,13 +16,22 @@
         {% block title %}{% endblock %}
     </title>
     <!-- Favicon icon -->
+{#    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />#}
+
+    <link rel="stylesheet" href="{% static 'vendor/select2/css/select2.min.css' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.png' %}">
     <link href="{% static 'vendor/jqvmap/css/jqvmap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'vendor/chartist/css/chartist.min.css' %}">
     <link href="{% static 'vendor/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
     <link href="{% static 'vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <link href="{% static '../../cdn.lineicons.com/2.0/LineIcons.css' %}" rel="stylesheet">
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
     {% block head %}{% endblock %}
 
 </head>
@@ -65,7 +74,7 @@
                 <div class="collapse navbar-collapse justify-content-between">
                     <div class="header-left">
                         <div class="dashboard_bar">
-                            داشبورد
+                            {% block inner-title %}{% endblock %}
                         </div>
                     </div>
 
@@ -151,7 +160,7 @@
     <div class="deznav">
         <div class="deznav-scroll">
             <ul class="metismenu" id="menu">
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <li><a class="has-arrow ai-icon" href="{% url 'core:home' %}" aria-expanded="false">
                     <i class="flaticon-381-networking"></i>
                     <span class="nav-text">داشبورد</span>
                 </a>
@@ -163,7 +172,7 @@
                 </a>
                     <ul aria-expanded="false">
                         <li><a href="app-profile.html">ثبت مخاطب جدید</a></li>
-                        <li><a href="app-calender.html">دفترچه مخاطبان</a></li>
+                        <li><a href="{% url 'core:contacts' %}">دفترچه مخاطبان</a></li>
                         <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">برچسب ها</a>
                             <ul aria-expanded="false">
                                 <li><a href="ecom-product-grid.html">برچسب ۱</a></li>
@@ -207,16 +216,16 @@
                 </a>
                 </li>
                 {% if user.is_authenticated and user.role in 'admin,operator' %}
-                        <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                            <i class="flaticon-381-notepad"></i>
-                            <span class="nav-text">مدیریت</span>
-                        </a>
-                            <ul aria-expanded="false">
-                                <li><a href="form-element.html">پیام های تایید نشده</a></li>
-                                <li><a href="form-wizard.html">پیام های در حال ارسال</a></li>
-                                <li><a href="form-editor-summernote.html">پیام های ارسال شده </a></li>
-                            </ul>
-                        </li>
+                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                        <i class="flaticon-381-notepad"></i>
+                        <span class="nav-text">مدیریت</span>
+                    </a>
+                        <ul aria-expanded="false">
+                            <li><a href="form-element.html">پیام های تایید نشده</a></li>
+                            <li><a href="form-wizard.html">پیام های در حال ارسال</a></li>
+                            <li><a href="form-editor-summernote.html">پیام های ارسال شده </a></li>
+                        </ul>
+                    </li>
                 {% endif %}
                 {% if user.is_authenticated and user.role == 'admin' %}
                     <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
@@ -263,21 +272,15 @@
 <!-- Required vendors -->
 <script src="{% static 'vendor/global/global.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
-<script src="{% static 'vendor/chart.js/Chart.bundle.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap-datetimepicker/js/moment.js' %}"></script>
 <script src="{% static 'vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
 <script src="{% static 'js/custom.min.js' %}"></script>
 <script src="{% static 'js/deznav-init.js' %}"></script>
-<!-- Apex Chart -->
-<script src="{% static 'vendor/apexchart/apexchart.js' %}"></script>
+{#<script src="{% static 'vendor/select2/js/select2.full.min.js' %}"></script>#}
+{#<script src="{% static 'js/plugins-init/select2-init.js' %}"></script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
 
-<!-- Chart piety plugin files -->
-<script src="{% static 'vendor/peity/jquery.peity.min.js' %}"></script>
-
-<!-- Dashboard 1 -->
-<script src="{% static 'js/dashboard/dashboard-1.js' %}"></script>
 {% block scripts %}{% endblock %}
-
 
 </body>
 </html>

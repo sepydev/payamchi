@@ -1,0 +1,18 @@
+{% load static %}
+{% for contact in contacts %}
+    <a onclick="load_contact_detail('{{ contact.id }}')">
+        <div class="row m-1">
+            <div class="col-4">
+                <img class="rounded" src="{% static '/images/profile/pic1.jpg' %}" width="70"
+                     alt="">
+            </div>
+            <div class="col-8">
+                <h6>{{ contact.caption }}</h6>
+                <p dir="ltr">
+                    <span class="badge badge-primary badge-pill">{{ contact.count_of_receive_message }}</span>
+                        {{ contact.latest_send_date }}
+                </p>
+            </div>
+        </div>
+    </a>
+{% endfor %}

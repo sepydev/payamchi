@@ -1,0 +1,264 @@
+{% load static %}
+
+<input id="contact_id" hidden value="{{ contact.id }}" />
+
+
+<div class="modal fade" id="create_new_contact_label" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ایجاد برچسب جدید</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    {% csrf_token %}
+                    <div id="div_id_mobile" class="form-group">
+                        <label for="id_mobile" class=" requiredField">
+                            عنوان برچسب<span class="asteriskField">*</span>
+                        </label>
+                        <div>
+                            <input type="text" name="caption" class="hide_arrow_number numberinput form-control"
+                                   required=""
+                                   id="contact_label_caption">
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary light" data-dismiss="modal"
+                        onclick="creat_and_add_contact_label()">اضافه
+                </button>
+                <button type="button" class="btn btn-danger light" data-dismiss="modal">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="dropdown ml-auto text-right">
+        <div class="row">
+            <div class="btn-link" data-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-primary  p-1 m-1">ارسال پیام</button>
+            </div>
+            <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
+                 style="position: absolute; transform: translate3d(-55px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                <a class="dropdown-item" href="javascript:void(0);">پیام صوتی</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction" ">پیام متنی </a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction"> واتس اپ</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">تلگرام</a>
+            </div>
+
+            <div class="modal fade" id="underConstruction" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">در دست ساخت</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">این قسمت بزودی راه اندازی می شود.</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger light" data-dismiss="modal">بستن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button data-toggle="modal" data-target="#editContract" class="btn btn-primary   p-1 m-1">ویرایش</button>
+
+            <div class="modal fade " id="editContract" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">ویرایش مخاطب</h5>
+                            <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            فرم ویرایش بایستی پیاده سازی شود
+                            #to do : complete this section
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger light" data-dismiss="modal">بستن</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {#    <button class="btn btn-primary float-right">ارسال پیام</button>#}
+</div>
+
+<div class="row m-1">
+    <div class="col-4">
+        <img class="rounded" src="{% static '/images/profile/pic1.jpg' %}"
+             width="200"
+             alt="">
+    </div>
+    <div class="col-8">
+
+        <div class="row">
+            <div class="fa-solid fa-user m-1"></div>
+            <label> {{ contact.caption|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-solid fa-mobile m-1"></div>
+            <label>{{ contact.mobile|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-solid fa-phone m-1"></div>
+            <label>{{ contact.tel|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-solid fa-envelope m-1"></div>
+            <label>{{ contact.email|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-brands fa-telegram m-1"></div>
+            <label>{{ contact.telegram_id|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-brands fa-whatsapp m-1"></div>
+            <label>{{ contact.whatsapp_id|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-solid fa-calendar-check m-1"></div>
+            <label>{{ statistics.first_send_date|default:"" }}</label>
+        </div>
+        <div class="row">
+            <div class="fa-regular fa-calendar m-1"></div>
+            <label>{{ statistics.last_send_date|default:"" }}</label>
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="row m-1">
+    {#    <div class="input-group col-12">#}
+    {#        <label class="col-2">برچسب ها </label>#}
+    {#        <input type="text" class="col-10"/>#}
+    {#    </div>#}
+    <div class="form-group row col-12">
+
+
+                <label class="col-2 center">برچسب ها </label>
+        {#        <input type="text" class="form-control input-default col-10 ">#}
+        {#        {{ form.as_p }}#}
+
+
+        <select id="mySelect2" multiple="multiple">
+            {% for contact_label in contact_labels %}
+                <option id = "{{ contact_label.id }}"
+                        {% if contact_label.selected > 0 %}
+                            selected="selected"
+                        {% endif %}
+                >
+                    {{ contact_label.caption }}
+                </option>
+            {% endfor %}
+        </select>
+
+
+    </div>
+
+</div>
+<hr>
+
+
+<div class="row m-1">
+    <div class="col p-3 text-center rounded mr-3 date-bx bgl-primary">
+        <h2 class="mb-0 text-black">0</h2>
+        <h5 class="mb-1 text-black text-nowrap">پیام ارسال شده</h5>
+    </div>
+    <div class="col p-3 text-center rounded mr-3 date-bx bgl-primary">
+        <h2 class="mb-0 text-black">3</h2>
+        <h5 class="mb-1 text-black text-nowrap">پیام دریافت شده</h5>
+    </div>
+    <div class="col p-3 text-center rounded mr-3 date-bx bgl-primary">
+        <h2 class="mb-0 text-black">3</h2>
+        <h5 class="mb-1 text-black text-nowrap">کمپین</h5>
+    </div>
+
+</div>
+<br>
+<div class="row m-1">
+    <div class="table-responsive">
+        <table class="table primary-table-bordered">
+            <thead class="thead-primary">
+            <tr>
+                <th scope="col">نوع پیام</th>
+                <th scope="col">کل ارسال</th>
+                <th scope="col">موفق</th>
+                <th scope="col">ناموفق</th>
+                <th scope="col">نامشخص</th>
+                <th scope="col">هزینه</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>پیام صوتی</th>
+                <td>۱</td>
+                <td>۲</td>
+                <td>۳</td>
+                <td>۴</td>
+                <td>۵</td>
+            </tr>
+            <tr>
+                <th>پیام متنی</th>
+                <td>۱</td>
+                <td>۲</td>
+                <td>۳</td>
+                <td>۴</td>
+                <td>۵</td>
+            </tr>
+            <tr>
+                <th>ایمیل</th>
+                <td>۱</td>
+                <td>۲</td>
+                <td>۳</td>
+                <td>۴</td>
+                <td>۵</td>
+            </tr>
+            <tr>
+                <th>تلگرام</th>
+                <td>۱</td>
+                <td>۲</td>
+                <td>۳</td>
+                <td>۴</td>
+                <td>۵</td>
+            </tr>
+            <tr>
+                <th>واتس اپ</th>
+                <td>۱</td>
+                <td>۲</td>
+                <td>۳</td>
+                <td>۴</td>
+                <td>۵</td>
+            </tr>
+
+            <tr class="thead-success">
+                <th scope="col">جمع</th>
+                <th>۱</th>
+                <th>۲</th>
+                <th>۳</th>
+                <th>۴</th>
+                <th>۵</th>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
