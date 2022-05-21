@@ -3,10 +3,11 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .chanel import Chanel
 from .base_model import BaseModel
 from .campaign import Campaign
-from .message_template import MessageTemplate, MessageTypeChoices
 from .message_define_label import MessageDefineLabel
+from .message_template import MessageTemplate, MessageTypeChoices
 
 User = get_user_model()
 
@@ -23,6 +24,7 @@ class MessageStatusChoices(models.IntegerChoices):
 class Message(BaseModel):
     caption = models.CharField(verbose_name=_('عنوان'), max_length=250)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('نام کاربری'))
+    chanel = models.ForeignKey(Chanel, on_delete=models.CASCADE, verbose_name=_('کانال ارسال'), null=True, blank=True)
     campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name=_('کمپین'))
     send_date = models.DateTimeField(verbose_name=_('تاریخ ارسال'))
     status = models.IntegerField(

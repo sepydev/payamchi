@@ -33,7 +33,7 @@ class ContactListView(LoginRequiredMixin, views.View):
         ).annotate(
             latest_send_date=Value('1399/12/28 23:58', TextField()),
             count_of_receive_message=Value('12', IntegerField()),
-        )[lower:upper]
+        ).order_by('pk')[lower:upper]
         return render(
             request,
             template_name='core/contacts/partials/contact_list.html',
@@ -51,7 +51,7 @@ class ContactDetailView(LoginRequiredMixin, views.View):
         contact = Contact.objects.filter(pk=pk, user=request.user).first()
         contact_labels = ContactDefineLabel.objects.filter(
             user=request.user
-        ).annotate(selected=Count('contact', filter=Q(contact__id=pk))).values()
+        ).annotate(selected=Count('contact', filter=Q(contact__id=pk))).order_by('pk')
         return render(
             request,
             template_name=self.template_name,

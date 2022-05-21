@@ -1,4 +1,5 @@
 from .campaign import Campaign
+from .chanel import Chanel
 from .contact import Contact
 from .contact_define_label import ContactDefineLabel
 from .invoice import Invoice

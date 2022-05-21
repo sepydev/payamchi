@@ -33,55 +33,59 @@ function load_contact_detail(id) {
             url: `/contact-detail/${id}/`,
             success: function (response) {
                 contact_detail.innerHTML = response
-                  $('#mySelect2').select2({
-                    tags: true,
-                    createTag: function (params) {
-                        var term = $.trim(params.term);
-                        if (term === '') {
-                            return null;
-                        }
-                        return {
-                            id: term,
-                            text: term,
-                            newTag: true // add additional parameters
-                        }
-                    }
-                });
-
-                $('#mySelect2').on('select2:select', function (e) {
-                    var data = e.params.data;
-                    if (data.newTag === true) {
-                        // var $select = $('#mySelect2');
-                        // var idToRemove = data.id;
-                        //
-                        // var values = $select.val();
-                        // if (values) {
-                        //     var i = values.indexOf(idToRemove);
-                        //     if (i >= 0) {
-                        //         values.splice(i, 1);
-                        //         $select.val(values).change();
-                        //     }
-                        // }
-                        $('#contact_label_caption').val(data.text);
-                        $('#create_new_contact_label').modal('toggle');
-                    } else {
-                        add_contact_label(data.element.id, false);
-                    }
-
-
-                });
-                $('#mySelect2').on('select2:unselect', function (e) {
-                    // Do something
-                    var data = e.params.data;
-                    delete_contact_label(data.element.id)
-                });
-
+                // console.log(response);
+                 load_my_select2() ;
             },
             error: function (error) {
                 console.log(error)
             }
         }
     )
+}
+
+function load_my_select2(){
+    $('#mySelect2').select2({
+        tags: true,
+        createTag: function (params) {
+            var term = $.trim(params.term);
+            if (term === '') {
+                return null;
+            }
+            return {
+                id: term,
+                text: term,
+                newTag: true // add additional parameters
+            }
+        }
+    });
+
+    $('#mySelect2').on('select2:select', function (e) {
+        var data = e.params.data;
+        if (data.newTag === true) {
+            // var $select = $('#mySelect2');
+            // var idToRemove = data.id;
+            //
+            // var values = $select.val();
+            // if (values) {
+            //     var i = values.indexOf(idToRemove);
+            //     if (i >= 0) {
+            //         values.splice(i, 1);
+            //         $select.val(values).change();
+            //     }
+            // }
+            $('#contact_label_caption').val(data.text);
+            $('#create_new_contact_label').modal('toggle');
+        } else {
+            add_contact_label(data.element.id, false);
+        }
+
+
+    });
+    $('#mySelect2').on('select2:unselect', function (e) {
+        // Do something
+        var data = e.params.data;
+        delete_contact_label(data.element.id)
+    });
 }
 
 function search_contacts() {
@@ -106,7 +110,7 @@ function creat_and_add_contact_label() {
             success: function (response) {
                 id = response.id;
                 caption = response.caption
-                delay(100).then( resolve =>add_contact_label(id, true));
+                add_contact_label(id, true);
 
 
             },
@@ -133,8 +137,7 @@ function add_contact_label(id, reload) {
                 if (reload) {
                     contact_id = $('#contact_id').val()
                     console.log(contact_id)
-                    delay(100).then( resolve =>  $('#mySelect2').val(null).trigger('change'));
-                    delay(500).then( resolve => load_contact_detail(contact_id));
+                    load_contact_detail(contact_id);
                     console.log(';;;;;;;;;;;;;;;;;;;;;')
 
                 }
