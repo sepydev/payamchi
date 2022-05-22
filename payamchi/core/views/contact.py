@@ -20,7 +20,34 @@ class ContactAddView(LoginRequiredMixin, views.View):
             request,
             template_name='core/contacts/partials/contact_add.html',
             context={
-                'form': form
+                'form': form,
+                'pk': pk
+            }
+        )
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            if request.POST['pk'] and request.POST['pk'] != 'None':
+                contact = Contact.objects.get(pk=request.POST['pk'])
+                contact.caption = form.cleaned_data['caption']
+                contact.mobile = form.cleaned_data['mobile']
+                contact.tel = form.cleaned_data['tel']
+                contact.email = form.cleaned_data['email']
+                contact.telegram_id = form.cleaned_data['telegram_id']
+                contact.whatsapp_id = form.cleaned_data['whatsapp_id']
+                contact.save()
+            else:
+                contact = Contact.objects.create(**form.cleaned_data, user=request.user)
+
+            contact.save()
+            # messages.info(request, "اطلاعات با موفقیت ذخیره شد" )
+        return render(
+            request,
+            template_name='core/contacts/partials/contact_add.html',
+            context={
+                'form': form,
+                # 'contact': contact
             }
         )
 
@@ -38,9 +65,6 @@ class ContactView(LoginRequiredMixin, views.View):
                 'contact': contact
             }
         )
-
-
-
 
     def post(self, request):
         form = ContactForm(request.POST)

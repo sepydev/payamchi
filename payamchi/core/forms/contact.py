@@ -24,7 +24,7 @@ class ContactForm(forms.ModelForm):
                 Submit('cancel', 'بستن', css_class='col-10 btn btn-danger btn-block',
                        data_dismiss="modal")
             ),
-            css_class='form-row'
+            css_class='form-submit-row'
         ),
     )
 
@@ -48,3 +48,5 @@ class ContactForm(forms.ModelForm):
             'whatsapp_id': {**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
 
         }
+
+

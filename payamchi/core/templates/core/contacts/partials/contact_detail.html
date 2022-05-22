@@ -73,15 +73,18 @@
             </div>
 
 
-            <button data-toggle="modal" data-target="#editContract" class="btn btn-primary   p-1 m-1"
-                    id="open-contact-modal"
-                    data-url="{% url 'core:contact-edit' contact.id%}"
-            >
+            <button class="btn btn-primary   p-1 m-1 "
+                    data-action="{% url 'core:contact-edit' contact.id %}"
+                    data-title="ویرایش مخاطب "
+                    data-subtitle=""
+                    data-icon="fa-keyboard-o"
+                    data-button-save-label="ذخیره"
+                    onclick="openMyModal(event,load_contact_detail , {{ contact.id }} ); return false;">
                 ویرایش
             </button>
 
-            <div id="contact-modal-wrapper"></div>
 
+            {#            <div id="contact-modal-wrapper"></div>#}
 
 
         </div>

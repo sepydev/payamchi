@@ -2,29 +2,20 @@
 {% load crispy_forms_tags %}
 
 
-<div class="modal fade " id="editContract_" style="display: none; " aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">اضافه / ویرایش مخاطب</h5>
-                <button type="button" class="close" data-dismiss="modal"><span>×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                {#                            {% include 'core/contacts/partials/contact_add.html' %}#}
-                <form class="form" novalidate
-                      action="{% url 'core:contacts' %}" method="POST">
-                    {% csrf_token %}
-                    {% crispy form %}
-                </form>
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form" novalidate
+              action="{% url 'core:contact-add' %}" method="post">
+            <input name="pk" value="{{ pk }}" hidden>
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
 
 
-            </div>
-
-
-        </div>
     </div>
+
+
 </div>
+
 
 

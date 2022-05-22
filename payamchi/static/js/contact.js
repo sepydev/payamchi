@@ -35,7 +35,7 @@ function load_contact_detail(id) {
                 contact_detail.innerHTML = response
                 // console.log(response);
                 load_my_select2();
-                load_conatct_modal();
+                // load_conatct_modal();
             },
             error: function (error) {
                 console.log(error)
