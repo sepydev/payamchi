@@ -1,6 +1,7 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
-<input id="contact_id" hidden value="{{ contact.id }}" />
+<input id="contact_id" hidden value="{{ contact.id }}"/>
 
 
 <div class="modal fade" id="create_new_contact_label" style="display: none;" aria-hidden="true">
@@ -42,7 +43,7 @@
 
 <div class="row">
 
-    <div class="dropdown ml-auto text-right">
+    <div class="dropdown ml-auto">
         <div class="row">
             <div class="btn-link" data-toggle="dropdown" aria-expanded="false">
                 <button class="btn btn-primary  p-1 m-1">ارسال پیام</button>
@@ -71,29 +72,17 @@
                 </div>
             </div>
 
-            <button data-toggle="modal" data-target="#editContract" class="btn btn-primary   p-1 m-1">ویرایش</button>
 
-            <div class="modal fade " id="editContract" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">ویرایش مخاطب</h5>
-                            <button type="button" class="close" data-dismiss="modal"><span>×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            فرم ویرایش بایستی پیاده سازی شود
-                            #to do : complete this section
+            <button data-toggle="modal" data-target="#editContract" class="btn btn-primary   p-1 m-1"
+                    id="open-contact-modal"
+                    data-url="{% url 'core:contact-edit' contact.id%}"
+            >
+                ویرایش
+            </button>
+
+            <div id="contact-modal-wrapper"></div>
 
 
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger light" data-dismiss="modal">بستن</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>
@@ -153,16 +142,16 @@
     <div class="form-group row col-12">
 
 
-                <label class="col-2 center">برچسب ها </label>
+        <label class="col-2 center">برچسب ها </label>
         {#        <input type="text" class="form-control input-default col-10 ">#}
         {#        {{ form.as_p }}#}
 
 
         <select id="mySelect2" multiple="multiple">
             {% for contact_label in contact_labels %}
-                <option id = "{{ contact_label.id }}"
+                <option id="{{ contact_label.id }}"
                         {% if contact_label.selected > 0 %}
-                            selected="selected"
+                        selected="selected"
                         {% endif %}
                 >
                     {{ contact_label.caption }}

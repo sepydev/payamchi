@@ -154,6 +154,8 @@
         Header end ti-comment-alt
     ***********************************-->
 
+    <div id="contact-add-modal"></div>
+
     <!--**********************************
         Sidebar start
     ***********************************-->
@@ -171,7 +173,14 @@
                     <span class="nav-text">مخاطبان</span>
                 </a>
                     <ul aria-expanded="false">
-                        <li><a href="app-profile.html">ثبت مخاطب جدید</a></li>
+                        <li><a
+                               id="btn-add-contact"
+                               data-url="{% url 'core:contact-add'%}"
+                        >ثبت مخاطب جدید</a></li>
+
+
+
+
                         <li><a href="{% url 'core:contacts' %}">دفترچه مخاطبان</a></li>
                         <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">برچسب ها</a>
                             <ul aria-expanded="false">
@@ -289,6 +298,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
 
 {% block scripts %}{% endblock %}
+
+<script>
+
+
+        let ModalDiv = $("#contact-add-modal");
+        btn_add_contract = document.getElementById('btn-add-contact')
+        btn_add_contract.addEventListener('click', () => {
+            $.ajax({
+                url: btn_add_contract.getAttribute('data-url'),
+                type: 'GET',
+                success: function (data) {
+                    ModalDiv.html(data);
+                    $("#editContract_").modal('show');
+                }
+            })
+        });
+
+
+
+</script>
 
 </body>
 </html>

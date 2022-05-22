@@ -34,7 +34,8 @@ function load_contact_detail(id) {
             success: function (response) {
                 contact_detail.innerHTML = response
                 // console.log(response);
-                 load_my_select2() ;
+                load_my_select2();
+                load_conatct_modal();
             },
             error: function (error) {
                 console.log(error)
@@ -43,7 +44,38 @@ function load_contact_detail(id) {
     )
 }
 
-function load_my_select2(){
+function load_conatct_modal() {
+    let ModalDiv = $("#contact-modal-wrapper");
+    open_contact_modal = document.getElementById('open-contact-modal')
+    open_contact_modal.addEventListener('click', () => {
+
+
+        $.ajax({
+            url: open_contact_modal.getAttribute('data-url'),
+            type: 'GET',
+            success: function (data) {
+                ModalDiv.html(data);
+                $("#editContract_").modal('show');
+            }
+        })
+    });
+
+
+    // $("#open-contact-modal").on("click", function() {
+    //     $.ajax({
+    //         url: $(this).attr("data-url"),
+    //         type: 'GET',
+    //         success: function(data) {
+    //             ModalDiv.html(data);
+    //             $("#share-note").modal('show');
+    //         }
+    //     });
+    // });
+}
+
+function load_my_select2() {
+
+
     $('#mySelect2').select2({
         tags: true,
         createTag: function (params) {
@@ -149,6 +181,7 @@ function add_contact_label(id, reload) {
         }
     )
 }
+
 function delay(time) {
     return new Promise(resolve => setTimeout(resolve, time));
 }
@@ -171,5 +204,7 @@ function delete_contact_label(id) {
         }
     )
 }
+
+
 
 

@@ -1,10 +1,28 @@
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import TextField, Value, IntegerField, Count, Q
+from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from ..forms.contact import ContactForm
 from ..models import Contact, ContactDefineLabel
+
+
+class ContactAddView(LoginRequiredMixin, views.View):
+
+    def get(self, request, pk=None):
+        form = ContactForm
+        if pk:
+            contact = Contact.objects.filter(user=request.user, pk=pk).first()
+            form = ContactForm(initial=model_to_dict(contact))
+        return render(
+            request,
+            template_name='core/contacts/partials/contact_add.html',
+            context={
+                'form': form
+            }
+        )
 
 
 class ContactView(LoginRequiredMixin, views.View):
@@ -20,6 +38,23 @@ class ContactView(LoginRequiredMixin, views.View):
                 'contact': contact
             }
         )
+
+
+
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = Contact(**form.cleaned_data)
+            contact.user = request.user
+            contact.save()
+            return render(
+                request,
+                template_name='core/contacts/contact.html',
+                context={
+                    'contact': contact
+                }
+            )
 
 
 class ContactListView(LoginRequiredMixin, views.View):
@@ -44,7 +79,6 @@ class ContactListView(LoginRequiredMixin, views.View):
 
 
 class ContactDetailView(LoginRequiredMixin, views.View):
-    form = None
     template_name = 'core/contacts/partials/contact_detail.html'
 
     def get(self, request, pk):
@@ -52,12 +86,14 @@ class ContactDetailView(LoginRequiredMixin, views.View):
         contact_labels = ContactDefineLabel.objects.filter(
             user=request.user
         ).annotate(selected=Count('contact', filter=Q(contact__id=pk))).order_by('pk')
+
+        form = ContactForm(initial=model_to_dict(contact))
         return render(
             request,
             template_name=self.template_name,
             context={
                 'contact': contact,
-                'form': self.form,
+                'form': form,
                 'contact_labels': contact_labels,
 
             }
