@@ -46,12 +46,14 @@
     <div class="dropdown ml-auto">
         <div class="row">
             <div class="btn-link" data-toggle="dropdown" aria-expanded="false">
-                <button class="btn btn-primary  p-1 m-1">ارسال پیام</button>
+                <button class="btn btn-primary dropdown-toggle m-1">ارسال پیام</button>
             </div>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                  style="position: absolute; transform: translate3d(-55px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
                 <a class="dropdown-item" href="javascript:void(0);">پیام صوتی</a>
-                <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction" ">پیام متنی </a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">
+                    پیام متنی
+                </a>
                 <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction"> واتس اپ</a>
                 <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">تلگرام</a>
             </div>
@@ -73,7 +75,7 @@
             </div>
 
 
-            <button class="btn btn-primary   p-1 m-1 "
+            <button class="btn btn-primary  m-1"
                     data-action="{% url 'core:contact-edit' contact.id %}"
                     data-title="ویرایش مخاطب "
                     data-subtitle=""
@@ -84,13 +86,9 @@
             </button>
 
 
-            {#            <div id="contact-modal-wrapper"></div>#}
-
-
         </div>
     </div>
 
-    {#    <button class="btn btn-primary float-right">ارسال پیام</button>#}
 </div>
 
 <div class="row m-1">
@@ -138,29 +136,26 @@
 </div>
 <br>
 <div class="row m-1">
-    {#    <div class="input-group col-12">#}
-    {#        <label class="col-2">برچسب ها </label>#}
-    {#        <input type="text" class="col-10"/>#}
-    {#    </div>#}
+
+
+
     <div class="form-group row col-12">
-
-
         <label class="col-2 center">برچسب ها </label>
-        {#        <input type="text" class="form-control input-default col-10 ">#}
-        {#        {{ form.as_p }}#}
 
-
-        <select id="mySelect2" multiple="multiple">
-            {% for contact_label in contact_labels %}
+        <select id="mySelect2" multiple="multiple" name="state">
+            {% for contact_label in contact_labels %}#}
                 <option id="{{ contact_label.id }}"
-                        {% if contact_label.selected > 0 %}
                         selected="selected"
-                        {% endif %}
                 >
                     {{ contact_label.caption }}
                 </option>
             {% endfor %}
         </select>
+
+
+
+
+
 
 
     </div>

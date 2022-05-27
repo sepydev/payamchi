@@ -93,11 +93,20 @@ class ContactListView(LoginRequiredMixin, views.View):
             latest_send_date=Value('1399/12/28 23:58', TextField()),
             count_of_receive_message=Value('12', IntegerField()),
         ).order_by('pk')[lower:upper]
+
+        page_end = lower + contacts.count()
+        count = Contact.objects.filter(
+            user=request.user,
+            caption__contains=caption
+        ).count()
+
         return render(
             request,
             template_name='core/contacts/partials/contact_list.html',
             context={
-                'contacts': contacts
+                'contacts': contacts,
+                'page_end': page_end,
+                'count': count,
             }
         )
 
@@ -107,9 +116,11 @@ class ContactDetailView(LoginRequiredMixin, views.View):
 
     def get(self, request, pk):
         contact = Contact.objects.filter(pk=pk, user=request.user).first()
-        contact_labels = ContactDefineLabel.objects.filter(
-            user=request.user
-        ).annotate(selected=Count('contact', filter=Q(contact__id=pk))).order_by('pk')
+        contact_labels = contact.labels.all()
+        #
+        # contact_labels = ContactDefineLabel.objects.filter(
+        #     user=request.user
+        # ).annotate(selected=Count('contact', filter=Q(contact__id=pk))).order_by('pk')
 
         form = ContactForm(initial=model_to_dict(contact))
         return render(
@@ -147,8 +158,6 @@ class ContactLabelsView(LoginRequiredMixin, views.View):
         return JsonResponse({'detail': 'contact_id is not valid'}, status=400)
 
     def delete(self, request, contact_id, label_id):
-        # contact_id = request.DELETE['contact_id']
-        # label_id = request.DELETE['label_id']
         contact = Contact.objects.filter(
             user=request.user,
             pk=contact_id
@@ -163,3 +172,32 @@ class ContactLabelsView(LoginRequiredMixin, views.View):
             contact.save()
             return JsonResponse({'detail': 'success'})
         return JsonResponse({'detail': 'contact_id is not valid'}, status=400)
+
+
+def contact_define_labels(request):
+    data = {
+        "results": [
+        ],
+        "pagination": {
+            "more": False
+        }
+    }
+    if 'q' in request.GET:
+        modules = ContactDefineLabel.objects.filter(caption__contains=request.GET.get('q', default=' ')).order_by(
+            "caption")[0:5]
+    else:
+        modules = ContactDefineLabel.objects.all().order_by("caption")[0:5]
+
+    if modules:
+        finds = []
+        if modules.count() > 5:
+            data["pagination"]['more'] = True
+
+        for item in modules:
+            finds.append({
+                'id': item.id,
+                'text': item.caption
+            })
+        data["results"] = finds
+
+    return JsonResponse(data=data)

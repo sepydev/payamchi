@@ -2,10 +2,16 @@
 {% load crispy_forms_tags %}
 
 
+
 <div class="row">
     <div class="col-sm-12">
         <form class="form" novalidate
               action="{% url 'core:contact-add' %}" method="post">
+
+            {% if form.errors %}
+                <div style="display: none" class="invalid-feedback"></div>
+            {% endif %}
+
             <input name="pk" value="{{ pk }}" hidden>
             {% csrf_token %}
             {% crispy form %}
