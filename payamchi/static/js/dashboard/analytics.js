@@ -90,7 +90,7 @@
 			new Chart(chart_widget_2, {
 				type: 'bar',
 				data: {
-					defaultFontFamily: 'iransans',
+					defaultFontFamily: 'iranyekan',
 					labels:  ['مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند', 'فروردین', 'اردیبهشت', 'خرداد'],
 					datasets: [
 						{
@@ -238,7 +238,7 @@
 			new Chart(areaChart_2, {
 				type: 'line',
 				data: {
-					defaultFontFamily: 'iransans',
+					defaultFontFamily: 'iranyekan',
 					labels: ["فروردین", "اسفند", "بهمن", "دی", "آذر", "آبان", "مهر"],
 					datasets: [
 						{
@@ -349,7 +349,7 @@
 		// ticketSold.height = 100;
 
 		let barChartData = {
-			defaultFontFamily: 'iransans',
+			defaultFontFamily: 'iranyekan',
 			labels:  ['مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند', 'فروردین', 'اردیبهشت', 'خرداد'],
 			datasets: [{
 				label: 'هزینه',

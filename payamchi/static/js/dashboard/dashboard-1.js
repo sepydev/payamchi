@@ -90,7 +90,7 @@
 							ticks: {
 								stepSize: 20,
 								fontColor: "#3e4954",
-								fontFamily: "iransans"
+								fontFamily: "iranyekan"
 							}
 						}]
 					},

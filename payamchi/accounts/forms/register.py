@@ -2,31 +2,28 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout, Field, Row, Column, Submit
 from django import forms
 from django.contrib.auth import get_user_model
-from jalali_date.fields import JalaliDateField
-from jalali_date.widgets import AdminJalaliDateWidget
 
-from ..forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
+from core.forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
+from core.forms.form_field import MobileValidator
 
 User = get_user_model()
 
 
 class RegisterForm(forms.ModelForm):
-    birth_date = JalaliDateField(label='تاریخ تولد',
-                                 widget=AdminJalaliDateWidget,
-                                 error_messages=ERROR_MESSAGES_REQUIRED,
-                                 )
+    birth_date_persian = forms.CharField(label='تاریخ تولد',
+                                         error_messages=ERROR_MESSAGES_REQUIRED,
+                                         )
+    birth_date = forms.CharField()
     mobile = forms.CharField(
-        widget=forms.NumberInput(),
         label='موبایل',
-        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+        validators=[MobileValidator()],
+        error_messages={**ERROR_MESSAGES_REQUIRED},
     )
     ir_code = forms.CharField(
         widget=forms.NumberInput(),
         label='کد ملی',
         error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
     )
-
-
 
     helper = FormHelper()
     helper.layout = Layout(
@@ -41,10 +38,11 @@ class RegisterForm(forms.ModelForm):
             css_class='form-row'
         ),
         Row(
-            Column(Field('birth_date')),
+            Column(Field('birth_date_persian')),
             Column(Field('father')),
             css_class='form-row'
         ),
+        Field('birth_date', css_class='d-none'),
         Div(
             Submit('submit', 'مرحله بعد', css_class='col-3 btn btn-primary btn-block'),
             css_class='text-center mt-4'

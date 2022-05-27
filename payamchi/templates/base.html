@@ -16,7 +16,7 @@
         {% block title %}{% endblock %}
     </title>
     <!-- Favicon icon -->
-{#    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />#}
+    {#    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />#}
 
     <link rel="stylesheet" href="{% static 'vendor/select2/css/select2.min.css' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon.png' %}">
@@ -27,9 +27,12 @@
     <link href="{% static 'vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'vendor/persian-date/dist/jquery.md.bootstrap.datetimepicker.style.css' %}" rel="stylesheet"/>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
 
 
     {% block head %}{% endblock %}
@@ -121,18 +124,6 @@
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3" style="height:100px;">
                                     <ul class="timeline">
-                                        {#                                        <li>#}
-                                        {#                                            <div class="timeline-panel">#}
-                                        {#                                                <div class="media mr-2">#}
-                                        {#                                                    <img alt="تصویر" width="50" src="{% static 'images/avatar/1.jpg' %} ">#}
-                                        {#                                                </div>#}
-                                        {#                                                <div class="media-body">#}
-                                        {#                                                    <h6 class="mb-1">دکتر سالتون برای شما عکس ارسال می کند</h6>#}
-                                        {#                                                    <small class="d-block">29 مهر 1399 - 02:26 صبح</small>#}
-                                        {#                                                </div>#}
-                                        {#                                            </div>#}
-                                        {#                                        </li>#}
-
                                     </ul>
                                 </div>
                                 <a class="all-notification" href="#">مشاهده همه اعلان ها <i
@@ -173,23 +164,17 @@
                     <span class="nav-text">مخاطبان</span>
                 </a>
                     <ul aria-expanded="false">
-{#                        <li><a#}
-{#                               id="btn-add-contact"#}
-{#                               data-url="{% url 'core:contact-add'%}"#}
-{#                        >ثبت مخاطب جدید</a></li>#}
-
                         <li>
                             <a
-                               data-action="{% url 'core:contact-add' %}"
-                               data-title="ثبت مخاطب جدید"
-                               data-subtitle=""
-                               data-icon="fa-keyboard-o"
-                               data-button-save-label="ذخیره"
-                               onclick="openMyModal(event); return false;">
+                                    data-action="{% url 'core:contact-add' %}"
+                                    data-title="ثبت مخاطب جدید"
+                                    data-subtitle=""
+                                    data-icon="fa-keyboard-o"
+                                    data-button-save-label="ذخیره"
+                                    onclick="openMyModal(event,null,null); return false;">
                                 ثبت مخاطب جدید
                             </a>
                         </li>
-
 
 
                         <li><a href="{% url 'core:contacts' %}">دفترچه مخاطبان</a></li>
@@ -207,7 +192,19 @@
                     <span class="nav-text">کمپین ها</span>
                 </a>
                     <ul aria-expanded="false">
-                        <li><a href="ui-accordion.html">کمپین جدید</a></li>
+
+                        <li>
+                            <a
+                                    data-action="{% url 'core:campaign-add' %}"
+                                    data-title="کمپین جدید"
+                                    data-subtitle=""
+                                    data-icon="fa-keyboard-o"
+                                    data-button-save-label="ذخیره"
+                                    onclick="openMyModal(event,null,null); return false;">
+                                کمپین جدید
+                            </a>
+                        </li>
+
                         <li><a href="ui-alert.html">کمپین های فعال</a></li>
                         <li><a href="ui-badge.html">کمپین های غیر فعال</a></li>
                     </ul>
@@ -262,7 +259,7 @@
 
 
                 {% endif %}
-                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <li><a class="has-arrow ai-icon" href="{% url 'accounts:logout' %}" aria-expanded="false">
                     <i class="flaticon-381-layer-1"></i>
                     <span class="nav-text">خروج</span>
                 </a>
@@ -298,38 +295,45 @@
     Scripts
 ***********************************-->
 <!-- Required vendors -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
 <script src="{% static 'vendor/global/global.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap-datetimepicker/js/moment.js' %}"></script>
 <script src="{% static 'vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' %}"></script>
+
+<script src="{% static 'js/modals.js' %}"></script>
+
 <script src="{% static 'js/custom.min.js' %}"></script>
 <script src="{% static 'js/deznav-init.js' %}"></script>
-<script src="{% static 'js/modals.js' %}"></script>
+
 {#<script src="{% static 'vendor/select2/js/select2.full.min.js' %}"></script>#}
 {#<script src="{% static 'js/plugins-init/select2-init.js' %}"></script>#}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+
+<script src="{% static 'vendor/persian-date/dist/jquery.md.bootstrap.datetimepicker.js' %}"></script>
+
 
 {% block scripts %}{% endblock %}
 
-<script>
-        let ModalDiv = $("#contact-add-modal");
-        btn_add_contract = document.getElementById('btn-add-contact')
-        btn_add_contract.addEventListener('click', () => {
-            $.ajax({
-                url: btn_add_contract.getAttribute('data-url'),
-                type: 'GET',
-                success: function (data) {
-                    ModalDiv.html(data);
-                    $("#editContract_").modal('show');
-                }
-            })
-        });
-</script>
+{#<script>#}
+{#    let ModalDiv = $("#contact-add-modal");#}
+{#    btn_add_contract = document.getElementById('btn-add-contact')#}
+{#    btn_add_contract.addEventListener('click', () => {#}
+{#        $.ajax({#}
+{#            url: btn_add_contract.getAttribute('data-url'),#}
+{#            type: 'GET',#}
+{#            success: function (data) {#}
+{#                ModalDiv.html(data);#}
+{#                $("#editContract_").modal('show');#}
+{#            }#}
+{#        })#}
+{#    });#}
+{#</script>#}
 
 
 <script language="javascript">
 
-    function openMyModal(event, afterModalSuccess , param ) {
+
+    function openMyModal(event, afterModalSuccess, param) {
         var modal = initModalDialog(event, '#modal_generic');
 
 
@@ -338,27 +342,23 @@
         $.ajax({
             type: "GET",
             url: url
-        }).done(function(data, textStatus, jqXHR) {
+        }).done(function (data, textStatus, jqXHR) {
 
             modal.find('.modal-body').html(data);
             modal.modal('show');
-            formAjaxSubmit(modal, url, afterModalLoad, afterModalSuccess ,param);
+            formAjaxSubmit(modal, url, afterModalLoad, afterModalSuccess, param);
 
 
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             alert("SERVER ERROR: " + errorThrown);
         });
     }
 
     function afterModalLoad(modal) {
 
-        console.log('modal %o loaded', modal);
+        {#console.log('modal %o loaded', modal);#}
     }
 
-    {#function afterModalSuccess(modal ,success_callback, param ) {#}
-    {#    console.log('modal %o succeeded', modal);#}
-    {#    success_callback(param)#}
-    {# }#}
 
 </script>
 

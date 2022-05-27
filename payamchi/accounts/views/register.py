@@ -33,7 +33,7 @@ class RegisterView(views.View):
             request.session['mobile'] = clean_data['mobile']
             request.session['ir_code'] = clean_data['ir_code']
             request.session['father'] = clean_data['father']
-            request.session['birth_date'] = clean_data['birth_date'].strftime("%Y-%m-%d")
+            request.session['birth_date'] = clean_data['birth_date']
             secret_code = get_secret_code()
             OTP.objects.create(secret_code=secret_code, mobile=clean_data['mobile'])
             bulk_id = send(f" کد تایید  {secret_code}", [clean_data['mobile']])

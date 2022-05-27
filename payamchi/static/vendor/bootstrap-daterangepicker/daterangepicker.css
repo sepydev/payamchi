@@ -235,7 +235,7 @@
 ----------------------------------*/
 
 .ui-widget {
-	font-family: iransans;
+	font-family: iranyekan;
 	font-size: 13px;
 }
 
@@ -247,7 +247,7 @@
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-	font-family: iransans;
+	font-family: iranyekan;
 	font-size: inherit;
 }
 
@@ -2464,7 +2464,7 @@ div.wijmo-wijmenu .wijmo-wijmenu-child .wijmo-wijmenu-text {
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset, 0 1px 0 rgba(255, 255, 255, 0.25); /* Firefox 3.6 */
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset, 0 1px 0 rgba(255, 255, 255, 0.25);
 	color: rgba(255, 255, 255, 0.75);
-	font-family: iransans;
+	font-family: iranyekan;
 	line-height: 1;
 	margin: 5px 10px 0 10px;
 	padding: 4px 9px;
@@ -2574,7 +2574,7 @@ div.wijmo-wijmenu .wijmo-wijmenu-child .wijmo-wijmenu-text {
 .pdp-default {
     direction: rtl;    
     color: #555;
-    font-family: iransans;
+    font-family: iranyekan;
     font-size: 17px;
     border-radius: 5px;
 }

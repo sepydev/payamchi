@@ -7,16 +7,17 @@ from crispy_forms.layout import (
 from django import forms
 from django.contrib.auth import get_user_model, authenticate
 
-from ..forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
+from core.forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
+from core.forms.form_field import MobileValidator
 
 User = get_user_model()
 
 
 class LoginForm(forms.Form):
     mobile = forms.CharField(
-        widget=forms.NumberInput(),
         label='موبایل',
-        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+        validators=[MobileValidator()],
+        error_messages={**ERROR_MESSAGES_REQUIRED},
     )
     password = forms.CharField(
         widget=forms.PasswordInput(),

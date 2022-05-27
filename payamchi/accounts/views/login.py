@@ -1,6 +1,5 @@
 from django import views
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login, logout
 from django.shortcuts import render, redirect
 
 from ..forms.login import LoginForm
@@ -38,3 +37,8 @@ class LoginView(views.View):
                 'form': form,
             }
         )
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('accounts:login')

@@ -1,6 +1,7 @@
 (function($) {
 	
-	var direction =  getUrlParams('dir');
+	var direction =  '';
+	// getUrlParams('dir');
 	if(direction != 'rtl')
 	{direction = 'ltr'; }
 

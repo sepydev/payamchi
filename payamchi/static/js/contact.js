@@ -1,4 +1,6 @@
 const btnLoadMore = document.getElementById('btnLoadMore')
+const divLoadMore = document.getElementById('divLoadMore')
+
 const contact_list = document.getElementById('contact_list')
 const contact_detail = document.getElementById('contact_detail')
 const contact_caption_search = document.getElementById('contact_caption_search')
@@ -12,7 +14,13 @@ const getContacts = () => {
             url: `/contact-list/${upper}/`,
             data: `caption=${contact_caption}`,
             success: function (response) {
+                if (response.search('page-finished') > -1) {
+                    console.log('dfas')
+                    divLoadMore.style = "display: none"
+
+                }
                 contact_list.innerHTML += response
+
             },
             error: function (error) {
                 console.log(error)
@@ -73,38 +81,71 @@ function load_conatct_modal() {
     // });
 }
 
+
+
+
 function load_my_select2() {
 
+    var lastResults = [];
+    $(document).ready(function () {
+        var select_item_c = $('#mySelect2').select2({
+            placeholder: 'لطفا برچسب خود را وارد کنید',
 
-    $('#mySelect2').select2({
-        tags: true,
-        createTag: function (params) {
-            var term = $.trim(params.term);
-            if (term === '') {
-                return null;
-            }
-            return {
-                id: term,
-                text: term,
-                newTag: true // add additional parameters
-            }
-        }
+
+            ajax: {
+                url: 'http://127.0.0.1:8000/select2/',
+                delay: 650,
+            },
+            closeOnSelect: true,
+            allowClear: true,
+            tags: true,
+            multiple: true,
+            tokenSeparators: [','],
+
+
+            insertTag: function (data, tag) {
+                // Insert the tag at the end of the results
+                var select2element = $(this.$element);
+                if (tag.newTag) {
+                    tag.id = String(Math.ceil(Math.random() * 100));
+                    data.push(tag);
+                    var v = select2element.val();
+                    if (v.indexOf(tag.id) == -1) {
+                        v.push(tag.id)
+                    }
+                    setTimeout(function () {
+                        select2element.val(v).trigger("change");
+                    }, 200);
+
+                }
+            },
+            createTag: function (params) {
+                var term = $.trim(params.term);
+                if (term === '') {
+                    return null;
+                }
+                console.log(term)
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // add additional parameters
+                }
+            },
+            templateResult: function (data) {
+                var $result = $("<span></span>");
+                $result.text(data.text);
+                if (data.newTag) {
+                    $result.append(" <em><strong> ( ایجاد کردن )  </strong></em>");
+                }
+                return $result;
+            },
+
+        });
     });
 
     $('#mySelect2').on('select2:select', function (e) {
         var data = e.params.data;
         if (data.newTag === true) {
-            // var $select = $('#mySelect2');
-            // var idToRemove = data.id;
-            //
-            // var values = $select.val();
-            // if (values) {
-            //     var i = values.indexOf(idToRemove);
-            //     if (i >= 0) {
-            //         values.splice(i, 1);
-            //         $select.val(values).change();
-            //     }
-            // }
             $('#contact_label_caption').val(data.text);
             $('#create_new_contact_label').modal('toggle');
         } else {
@@ -113,17 +154,60 @@ function load_my_select2() {
 
 
     });
-    $('#mySelect2').on('select2:unselect', function (e) {
-        // Do something
-        var data = e.params.data;
-        delete_contact_label(data.element.id)
-    });
+
+
+    //
+    // $('#mySelect2').select2({
+    //     tags: true,
+    //     createTag: function (params) {
+    //         var term = $.trim(params.term);
+    //         if (term === '') {
+    //             return null;
+    //         }
+    //         return {
+    //             id: term,
+    //             text: term,
+    //             newTag: true // add additional parameters
+    //         }
+    //     }
+    // });
+    //
+    // $('#mySelect2').on('select2:select', function (e) {
+    //     var data = e.params.data;
+    //     if (data.newTag === true) {
+    //         // var $select = $('#mySelect2');
+    //         // var idToRemove = data.id;
+    //         //
+    //         // var values = $select.val();
+    //         // if (values) {
+    //         //     var i = values.indexOf(idToRemove);
+    //         //     if (i >= 0) {
+    //         //         values.splice(i, 1);
+    //         //         $select.val(values).change();
+    //         //     }
+    //         // }
+    //         $('#contact_label_caption').val(data.text);
+    //         $('#create_new_contact_label').modal('toggle');
+    //     } else {
+    //         add_contact_label(data.element.id, false);
+    //     }
+    //
+    //
+    // });
+    // $('#mySelect2').on('select2:unselect', function (e) {
+    //     // Do something
+    //     var data = e.params.data;
+    //     delete_contact_label(data.element.id)
+    // });
+    //
+
 }
 
 function search_contacts() {
     upper = list_size
     contact_caption = contact_caption_search.value
     contact_list.innerHTML = ""
+    divLoadMore.style = ""
     getContacts()
 }
 
@@ -166,13 +250,6 @@ function add_contact_label(id, reload) {
                 xhr.setRequestHeader('X-CSRFToken', csrftoken);
             },
             success: function (response) {
-                if (reload) {
-                    contact_id = $('#contact_id').val()
-                    console.log(contact_id)
-                    load_contact_detail(contact_id);
-                    console.log(';;;;;;;;;;;;;;;;;;;;;')
-
-                }
                 console.log(response)
             },
             error: function (error) {

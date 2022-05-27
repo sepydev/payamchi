@@ -3,16 +3,16 @@ from crispy_forms.layout import Layout, Field, Column, Row, Submit
 from django import forms
 from django.contrib.auth import get_user_model
 
-from ..forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
+from core.forms import ERROR_MESSAGES_REQUIRED
+from core.forms.form_field import MobileValidator
 
 User = get_user_model()
 
 
 class ForgetPasswordForm(forms.Form):
     mobile = forms.CharField(
-        widget=forms.NumberInput(),
-        label='موبایل',
-        error_messages={**ERROR_MESSAGES_REQUIRED, **ERROR_MESSAGES_INVALID},
+        validators=[MobileValidator()],
+        error_messages={**ERROR_MESSAGES_REQUIRED},
     )
     helper = FormHelper()
     helper.layout = Layout(
@@ -20,10 +20,10 @@ class ForgetPasswordForm(forms.Form):
         Row(
             Column(
                 Submit('cancel', 'بازگشت', css_class='col-10 btn btn-light btn-block')
-                ),
+            ),
             Column(
                 Submit('submit', 'مرحله بعد', css_class='col-10 btn btn-primary btn-block')
-                ),
+            ),
             css_class='form-row'
         ),
 
