@@ -1,0 +1,57 @@
+{% load static %}
+{% load crispy_forms_tags %}
+{% load jalali_tags %}
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form" novalidate autocomplete="off"
+              action="{% url 'core:campaign-add' %}" method="post">
+
+            {% if form.errors %}
+                <div style="display: none" class="invalid-feedback"></div>
+            {% endif %}
+
+            <input name="pk" value="{{ pk }}" hidden>
+            {% csrf_token %}
+            {% crispy form %}
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+<script language="javascript">
+    $(document).ready(function () {
+        handel_campaign_date_time();
+    });
+
+
+    function handel_campaign_date_time() {
+        $('#id_start_date_persian').MdPersianDateTimePicker({
+            targetTextSelector: '#id_start_date_persian',
+            targetDateSelector: '#id_start_date',
+            enableTimePicker: true,
+            fromDate: true,
+            groupId: 'enter_date',
+            dateFormat: 'yyyy-MM-dd hh:mm',
+
+        });
+        $('#id_end_date_persian').MdPersianDateTimePicker({
+            targetTextSelector: '#id_end_date_persian',
+            targetDateSelector: '#id_end_date',
+            enableTimePicker: true,
+            toDate: true,
+            groupId: 'enter_date',
+            dateFormat: 'yyyy-MM-dd hh:mm',
+
+        });
+
+    }
+
+</script>
+
+
