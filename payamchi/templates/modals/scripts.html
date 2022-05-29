@@ -1,0 +1,19 @@
+<script language="javascript">
+
+    function openMyModal(event, afterModalSuccess, param) {
+        var modal = initModalDialog(event, '#modal_generic');
+        var url = $(event.target).data('action');
+        $.ajax({
+            type: "GET",
+            url: url
+        }).done(function (data, textStatus, jqXHR) {
+            modal.find('.modal-body').html(data);
+            modal.modal('show');
+            formAjaxSubmit(modal, url, afterModalLoad, afterModalSuccess, param);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("SERVER ERROR: " + errorThrown);
+        });
+    }
+    function afterModalLoad(modal) { }
+
+</script>

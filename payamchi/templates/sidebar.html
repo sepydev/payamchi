@@ -1,0 +1,122 @@
+<div class="deznav">
+    <div class="deznav-scroll">
+        <ul class="metismenu" id="menu">
+            <li><a class="has-arrow ai-icon" href="{% url 'core:home' %}" aria-expanded="false">
+                <i class="flaticon-381-networking"></i>
+                <span class="nav-text">داشبورد</span>
+            </a>
+
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <i class="flaticon-381-television"></i>
+                <span class="nav-text">مخاطبان</span>
+            </a>
+                <ul aria-expanded="false">
+                    <li>
+                        <a
+                                data-action="{% url 'core:contact-add' %}"
+                                data-title="ثبت مخاطب جدید"
+                                data-subtitle=""
+                                data-icon="fa-keyboard-o"
+                                data-button-save-label="ذخیره"
+                                onclick="openMyModal(event,null,null); return false;">
+                            ثبت مخاطب جدید
+                        </a>
+                    </li>
+
+
+                    <li><a href="{% url 'core:contacts' %}">دفترچه مخاطبان</a></li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">برچسب ها</a>
+                        <ul aria-expanded="false">
+                            <li><a href="ecom-product-grid.html">برچسب ۱</a></li>
+                            <li><a href="ecom-product-list.html">برچسب ۲</a></li>
+                            <li><a href="ecom-product-detail.html">...</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <i class="flaticon-381-internet"></i>
+                <span class="nav-text">کمپین ها</span>
+            </a>
+                <ul aria-expanded="false">
+
+                    <li>
+                        <a
+                                data-action="{% url 'core:campaign-add' %}"
+                                data-title="کمپین جدید"
+                                data-subtitle=""
+                                data-icon="fa-keyboard-o"
+                                data-button-save-label="ذخیره"
+                                onclick="openMyModal(event,null,null); return false;">
+                            کمپین جدید
+                        </a>
+                    </li>
+
+                    <li><a href="{% url 'core:campaigns' %}">
+                        لیست کمپین ها
+                    </a></li>
+                    <li><a href="ui-alert.html">
+                        کمپین های فعال
+                    </a></li>
+                    <li><a href="ui-badge.html">کمپین های غیر فعال</a></li>
+                </ul>
+            </li>
+            <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <i class="flaticon-381-heart"></i>
+                <span class="nav-text">صندوق پیام</span>
+            </a>
+                <ul aria-expanded="false">
+                    <li><a href="{% url 'core:inbox' %}">صندوق ورودی</a></li>
+                    <li><a href="uc-nestable.html">صندوق خروجی</a></li>
+                    <li><a href="uc-noui-slider.html">پیش نویس</a></li>
+                    <li><a href="uc-sweetalert.html">ارسال نشده ها</a></li>
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">برچسب ها</a>
+                        <ul aria-expanded="false">
+                            <li><a href="ecom-product-grid.html">برچسب ۱</a></li>
+                            <li><a href="ecom-product-list.html">برچسب ۲</a></li>
+                            <li><a href="ecom-product-detail.html">...</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="widget-basic.html" class="ai-icon" aria-expanded="false">
+                <i class="flaticon-381-settings-2"></i>
+                <span class="nav-text">حسابداری</span>
+            </a>
+            </li>
+            {% if user.is_authenticated and user.role in 'admin,operator' %}
+                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-notepad"></i>
+                    <span class="nav-text">مدیریت</span>
+                </a>
+                    <ul aria-expanded="false">
+                        <li><a href="form-element.html">پیام های تایید نشده</a></li>
+                        <li><a href="form-wizard.html">پیام های در حال ارسال</a></li>
+                        <li><a href="form-editor-summernote.html">پیام های ارسال شده </a></li>
+                    </ul>
+                </li>
+            {% endif %}
+            {% if user.is_authenticated and user.role == 'admin' %}
+                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="flaticon-381-network"></i>
+                    <span class="nav-text">کاربران</span>
+                </a>
+                </li>
+
+                <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                    <i class="fa-code fa-code-branch"></i>
+                    <span class="nav-text">کانالها</span>
+                </a>
+                </li>
+
+
+            {% endif %}
+            <li><a class="has-arrow ai-icon" href="{% url 'accounts:logout' %}" aria-expanded="false">
+                <i class="flaticon-381-layer-1"></i>
+                <span class="nav-text">خروج</span>
+            </a>
+            </li>
+        </ul>
+    </div>
+</div>

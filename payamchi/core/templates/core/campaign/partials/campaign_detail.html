@@ -1,0 +1,202 @@
+{% load static %}
+
+<div>
+
+    <input id="campaign_id" hidden value="{{ campaign.id }}"/>
+
+    <div class="row">
+        <div class="dropdown ml-auto">
+            <div class="row">
+                <div class="btn-link" data-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-primary dropdown-toggle m-1">ارسال پیام</button>
+                </div>
+                <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
+                     style="position: absolute; transform: translate3d(-55px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <a class="dropdown-item" href="javascript:void(0);">پیام صوتی</a>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">
+                        پیام متنی
+                    </a>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction"> واتس اپ</a>
+                    <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">تلگرام</a>
+                </div>
+
+                <div class="modal fade" id="underConstruction" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">در دست ساخت</h5>
+                                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">این قسمت بزودی راه اندازی می شود.</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger light" data-dismiss="modal">بستن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary  m-1"
+                        data-action="{% url 'core:campaign-edit' campaign.id %}"
+                        data-title="ویرایش کمپین "
+                        data-subtitle=""
+                        data-icon="fa-keyboard-o"
+                        data-button-save-label="ذخیره"
+                        onclick="openMyModal(event,load_campaign_detail , {{ campaign.id }} ); return false;">
+                    ویرایش
+                </button>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="row m-1">
+        <div class="col p-3 text-center rounded mr-3 date-bx bgl-primary">
+            <h2 class="mb-0 text-black">0</h2>
+            <h5 class="mb-1 text-black text-nowrap">تعداد ارسال ها</h5>
+        </div>
+        <div class="col p-3 text-center rounded mr-3 date-bx bgl-success">
+            <h2 class="mb-0 text-black">3</h2>
+            <h5 class="mb-1 text-black text-nowrap">موفق</h5>
+        </div>
+        <div class="col p-3 text-center rounded mr-3 date-bx bgl-danger">
+            <h2 class="mb-0 text-black">3</h2>
+            <h5 class="mb-1 text-black text-nowrap">ناموفق</h5>
+        </div>
+        <div class="col p-3 text-center rounded mr-3 date-bx bgl-secondary">
+            <h2 class="mb-0 text-black">3</h2>
+            <h5 class="mb-1 text-black text-nowrap">نامشخص</h5>
+        </div>
+        <div class="col p-3 text-center rounded mr-3 date-bx bgl-info">
+            <h2 class="mb-0 text-black">3</h2>
+            <h5 class="mb-1 text-black text-nowrap">هزینه</h5>
+        </div>
+
+    </div>
+
+    <hr class="mt-4 mb-4">
+
+    <div class="row m-1">
+        <div class="col">
+            <form method="get" novalidate autocomplete="off">
+                <div class="row">
+                    <div class="col-4">
+
+                        <div class="form-group ">
+                            <label>وضعیت</label>
+
+                            <select id="status_select" class="form-control replace-rounded">
+                                <option>انتخاب 1</option>
+                                <option>گزینه 2</option>
+                                <option>گزینه 3</option>
+                            </select>
+                        </div>
+                        <style>
+                            .replace-rounded .btn {
+                                border-radius: 1.25rem !important;
+                            }
+                        </style>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label>بازه تاریخی</label>
+                            <div class="row">
+                                <div class="col-10">
+                                    <input type="text" id="id_date_range"
+                                           class="form-control input-default "
+                                           placeholder="بازه تاریخی را انتخاب کنید"/>
+                                </div>
+                                {#                        <div class="col-5">#}
+                                {#                            <input type="text" class="form-control input-default " placeholder="تا تاریخ"/>#}
+                                {#                        </div>#}
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary ">جستجو</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="row m-1">
+
+
+        <div class="table-responsive">
+            <table class="table primary-table-bordered">
+                <thead class="thead-primary">
+                <tr>
+                    <th scope="col">نوع پیام</th>
+                    <th scope="col">کل ارسال</th>
+                    <th scope="col">موفق</th>
+                    <th scope="col">ناموفق</th>
+                    <th scope="col">نامشخص</th>
+                    <th scope="col">هزینه</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>پیام صوتی</th>
+                    <td>۱</td>
+                    <td>۲</td>
+                    <td>۳</td>
+                    <td>۴</td>
+                    <td>۵</td>
+                </tr>
+                <tr>
+                    <th>پیام متنی</th>
+                    <td>۱</td>
+                    <td>۲</td>
+                    <td>۳</td>
+                    <td>۴</td>
+                    <td>۵</td>
+                </tr>
+                <tr>
+                    <th>ایمیل</th>
+                    <td>۱</td>
+                    <td>۲</td>
+                    <td>۳</td>
+                    <td>۴</td>
+                    <td>۵</td>
+                </tr>
+                <tr>
+                    <th>تلگرام</th>
+                    <td>۱</td>
+                    <td>۲</td>
+                    <td>۳</td>
+                    <td>۴</td>
+                    <td>۵</td>
+                </tr>
+                <tr>
+                    <th>واتس اپ</th>
+                    <td>۱</td>
+                    <td>۲</td>
+                    <td>۳</td>
+                    <td>۴</td>
+                    <td>۵</td>
+                </tr>
+
+                <tr class="thead-light">
+                    <th scope="col">جمع</th>
+                    <th>۱</th>
+                    <th>۲</th>
+                    <th>۳</th>
+                    <th>۴</th>
+                    <th>۵</th>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
