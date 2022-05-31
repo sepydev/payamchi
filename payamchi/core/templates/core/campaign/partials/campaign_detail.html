@@ -83,17 +83,19 @@
 
     <div class="row m-1">
         <div class="col">
-            <form method="get" novalidate autocomplete="off">
+
                 <div class="row">
                     <div class="col-4">
 
                         <div class="form-group ">
                             <label>وضعیت</label>
 
+
                             <select id="status_select" class="form-control replace-rounded">
-                                <option>انتخاب 1</option>
-                                <option>گزینه 2</option>
-                                <option>گزینه 3</option>
+                                <option value="-1" selected> همه موارد</option>
+                                {% for message_type in message_types %}
+                                    <option value="{{ message_type.0 }}"> {{ message_type.1 }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <style>
@@ -107,94 +109,28 @@
                             <label>بازه تاریخی</label>
                             <div class="row">
                                 <div class="col-10">
-                                    <input type="text" id="id_date_range"
+                                    <input type="text" id="id_date_range_"
                                            class="form-control input-default "
                                            placeholder="بازه تاریخی را انتخاب کنید"/>
+                                    <input type="text" id="id_date_range" style="display: none"/>
                                 </div>
-                                {#                        <div class="col-5">#}
-                                {#                            <input type="text" class="form-control input-default " placeholder="تا تاریخ"/>#}
-                                {#                        </div>#}
-                                <div class="col-2">
-                                    <button type="submit" class="btn btn-primary ">جستجو</button>
+                                <div class="col-2 center">
+                                    <button type="submit" class="btn btn-primary btn-sm"
+                                            onclick="load_campaign_messages({{ campaign.id }})"
+                                    >
+                                        <div class="fa fa-search"></div>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </form>
+
         </div>
     </div>
 
-    <div class="row m-1">
-
-
-        <div class="table-responsive">
-            <table class="table primary-table-bordered">
-                <thead class="thead-primary">
-                <tr>
-                    <th scope="col">نوع پیام</th>
-                    <th scope="col">کل ارسال</th>
-                    <th scope="col">موفق</th>
-                    <th scope="col">ناموفق</th>
-                    <th scope="col">نامشخص</th>
-                    <th scope="col">هزینه</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th>پیام صوتی</th>
-                    <td>۱</td>
-                    <td>۲</td>
-                    <td>۳</td>
-                    <td>۴</td>
-                    <td>۵</td>
-                </tr>
-                <tr>
-                    <th>پیام متنی</th>
-                    <td>۱</td>
-                    <td>۲</td>
-                    <td>۳</td>
-                    <td>۴</td>
-                    <td>۵</td>
-                </tr>
-                <tr>
-                    <th>ایمیل</th>
-                    <td>۱</td>
-                    <td>۲</td>
-                    <td>۳</td>
-                    <td>۴</td>
-                    <td>۵</td>
-                </tr>
-                <tr>
-                    <th>تلگرام</th>
-                    <td>۱</td>
-                    <td>۲</td>
-                    <td>۳</td>
-                    <td>۴</td>
-                    <td>۵</td>
-                </tr>
-                <tr>
-                    <th>واتس اپ</th>
-                    <td>۱</td>
-                    <td>۲</td>
-                    <td>۳</td>
-                    <td>۴</td>
-                    <td>۵</td>
-                </tr>
-
-                <tr class="thead-light">
-                    <th scope="col">جمع</th>
-                    <th>۱</th>
-                    <th>۲</th>
-                    <th>۳</th>
-                    <th>۴</th>
-                    <th>۵</th>
-                </tr>
-
-                </tbody>
-            </table>
-        </div>
+    <div class="row m-1" id="div_campaign_messages">
     </div>
 
 

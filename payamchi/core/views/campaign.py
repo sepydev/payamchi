@@ -1,10 +1,14 @@
+import datetime
+
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q, F
 from django.forms.models import model_to_dict
 from django.shortcuts import render
 
 from ..forms.campaign import CampaignForm
-from ..models import Campaign
+from ..models import Campaign, MessageTypeChoices, Message
+from ..models.message_receiver import MessageReceiverStatusChoices
 
 
 class CampaignAddView(LoginRequiredMixin, views.View):
@@ -37,10 +41,8 @@ class CampaignAddView(LoginRequiredMixin, views.View):
                 data = form.cleaned_data
                 data.pop('start_date_persian')
                 data.pop('end_date_persian')
-
                 campaign = Campaign.objects.create(**form.cleaned_data, user=request.user)
-
-            campaign.save()
+                campaign.save()
         return render(
             request,
             template_name='core/campaign/partials/campaign_add.html',
@@ -68,28 +70,44 @@ class CampaignView(LoginRequiredMixin, views.View):
 class CampaignListView(LoginRequiredMixin, views.View):
 
     def get(self, request, upper):
-        caption = request.GET['caption']
-        lower = upper - 10
-        campaigns = Campaign.objects.filter(
-            user=request.user,
-            caption__contains=caption
-        ).order_by('pk')[lower:upper]
+        campaign_id = request.GET.get('campaign_id', None)
+        if campaign_id:
+            template_name = 'core/campaign/partials/campaign_list_item.html'
+            campaign = Campaign.objects.filter(
+                user=request.user,
+                pk=campaign_id
+            ).first()
+            return render(
+                request,
+                template_name=template_name,
+                context={
+                    'campaign': campaign,
+                }
+            )
+        else:
+            template_name = 'core/campaign/partials/campaign_list.html'
+            caption = request.GET['caption']
+            lower = upper - 10
+            campaigns = Campaign.objects.filter(
+                user=request.user,
+                caption__contains=caption
+            ).order_by('pk')[lower:upper]
 
-        page_end = lower + campaigns.count()
-        count = Campaign.objects.filter(
-            user=request.user,
-            caption__contains=caption
-        ).count()
+            page_end = lower + campaigns.count()
+            count = Campaign.objects.filter(
+                user=request.user,
+                caption__contains=caption
+            ).count()
 
-        return render(
-            request,
-            template_name='core/campaign/partials/campaign_list.html',
-            context={
-                'campaigns': campaigns,
-                'page_end': page_end,
-                'count': count,
-            }
-        )
+            return render(
+                request,
+                template_name=template_name,
+                context={
+                    'campaigns': campaigns,
+                    'page_end': page_end,
+                    'count': count,
+                }
+            )
 
 
 class CampaignDetailView(LoginRequiredMixin, views.View):
@@ -105,5 +123,60 @@ class CampaignDetailView(LoginRequiredMixin, views.View):
             context={
                 'campaign': campaign,
                 'form': form,
+                'message_types': MessageTypeChoices.choices
+            }
+        )
+
+
+class CampaignMessages(LoginRequiredMixin, views.View):
+    template_name = 'core/campaign/partials/campaign_messages.html'
+
+    def get(self, request):
+        campaign_id = request.GET['campaign_id']
+
+        messages = Message.objects.filter(
+            campaign__user=request.user,
+            campaign_id=campaign_id
+        ).annotate(
+            total=Count('messagereceiver'),
+            successful=Count(
+                expression='messagereceiver',
+                filter=Q(
+                    messagereceiver__status=MessageReceiverStatusChoices.SUCCESSFUL.value,
+                )
+            ),
+            unsuccessful=Count(
+                expression='messagereceiver',
+                filter=Q(
+                    messagereceiver__status=MessageReceiverStatusChoices.UNSUCCESSFUL.value,
+                )
+            ),
+            undefined=Count(
+                expression='messagereceiver',
+                filter=Q(
+                    messagereceiver__status=MessageReceiverStatusChoices.UNDEFINED.value,
+                )
+            ),
+            send_date_only=F('send_date__date'),
+
+        ).order_by('-pk')
+
+        # messages = messages.values()
+
+        # for message in messages:
+        #     if message["send_date"].timestamp() < datetime.datetime.now().timestamp():
+        #         message['text_class'] = 'danger'
+        #     elif message["send_date"].date() == datetime.date.today():
+        #         message['text_class'] = 'warning'
+        #     else:
+        #         message['text_class'] = 'success'
+
+        return render(
+            request,
+            template_name=self.template_name,
+            context={
+                'messages': messages,
+                'today': datetime.date.today(),
+
             }
         )

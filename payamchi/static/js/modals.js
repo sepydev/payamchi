@@ -71,17 +71,19 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess, param) {
     var btn_save = modal.find('.modal-footer .btn-save');
     if (btn_save) {
         modal.find('.modal-body form .form-submit-row').hide();
-        btn_save.off().on('click', function(event) {
+        btn_save.off().on('click', function (event) {
             modal.find('.modal-body form').submit();
         });
     }
-    if (cbAfterLoad) { cbAfterLoad(modal); }
+    if (cbAfterLoad) {
+        cbAfterLoad(modal);
+    }
 
     // Give focus to first visible form field
     modal.find('form input:visible').first().focus();
 
     // bind to the form’s submit event
-    $(form).on('submit', function(event) {
+    $(form).on('submit', function (event) {
 
         // prevent the form from performing its default submit action
         event.preventDefault();
@@ -95,7 +97,7 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess, param) {
             type: $(this).attr('method'),
             url: url,
             data: $(this).serialize(),
-            success: function(xhr, ajaxOptions, thrownError) {
+            success: function (xhr, ajaxOptions, thrownError) {
 
                 // update the modal body with the new form
                 $(modal).find('.modal-body').html(xhr);
@@ -107,17 +109,20 @@ function formAjaxSubmit(modal, action, cbAfterLoad, cbAfterSuccess, param) {
                 // the form did not validate successfully,
                 // so we keep it open for further editing
                 if ($(xhr).find('.invalid-feedback').length > 0) {
-                    formAjaxSubmit(modal, url, cbAfterLoad, cbAfterSuccess ,param);
+                    formAjaxSubmit(modal, url, cbAfterLoad, cbAfterSuccess, param);
                 } else {
                     // otherwise, we've done and can close the modal
                     $(modal).modal('hide');
-                    if (cbAfterSuccess) { cbAfterSuccess(param); }
+                    if (cbAfterSuccess) {
+                        console.log('callback')
+                        cbAfterSuccess(param);
+                    }
                 }
             },
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function (xhr, ajaxOptions, thrownError) {
                 console.log('SERVER ERROR: ' + thrownError);
             },
-            complete: function() {
+            complete: function () {
                 header.removeClass('loading');
             }
         });
@@ -141,11 +146,11 @@ function openModalDialogWithForm(event, modal, cbAfterLoad, cbAfterSuccess) {
     $.ajax({
         type: 'GET',
         url: url
-    }).done(function(data, textStatus, jqXHR) {
+    }).done(function (data, textStatus, jqXHR) {
         modal.find('.modal-body').html(data);
         modal.modal('show');
         formAjaxSubmit(modal, url, cbAfterLoad, cbAfterSuccess);
-    }).fail(function(jqXHR, textStatus, errorThrown) {
+    }).fail(function (jqXHR, textStatus, errorThrown) {
         alert('SERVER ERROR: ' + errorThrown);
     });
 }
@@ -167,16 +172,16 @@ function openModalDialogWithForm(event, modal, cbAfterLoad, cbAfterSuccess) {
 function confirmRemoteAction(url, title, afterDoneCallback) {
     var modal = $('#modal_confirm');
     modal.find('.modal-body p').text(title);
-    modal.find('.btn-yes').off().on('click', function() {
+    modal.find('.btn-yes').off().on('click', function () {
         // User selected "Yes", so proceed with remote call
         $.ajax({
             type: 'GET',
             url: url
-        }).done(function(data) {
+        }).done(function (data) {
             if (afterDoneCallback) {
                 afterDoneCallback(data);
             }
-        }).fail(function(jqXHR, textStatus, errorThrown) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
             display_server_error(errorThrown);
         });
     });

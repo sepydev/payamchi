@@ -63,6 +63,6 @@
 {% block scripts %}
     <script src="{% static 'js/campaign.js' %}"></script>
     <script>
-        load_campaign_detail({{ campaign.id }})
+        load_campaign_detail({{ campaign.id }}, true)
     </script>
 {% endblock %}

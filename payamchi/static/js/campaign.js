@@ -6,7 +6,6 @@ const campaign_caption_search = document.getElementById('campaign_caption_search
 const list_size = 10
 let upper = list_size
 let campaign_caption = ""
-let page_load = true
 
 const get_campaigns = () => {
     $.ajax({
@@ -34,30 +33,58 @@ function search_campaigns() {
     get_campaigns()
 }
 
-get_campaigns()
+get_campaigns();
 
 btnLoadMore.addEventListener('click', () => {
     upper += list_size
     get_campaigns()
-})
+});
 
-
-function load_campaign_detail(id) {
+function load_campaign_detail(id, from_btn = false) {
     $.ajax({
             type: 'GET',
             url: `/campaign-detail/${id}/`,
             success: function (response) {
                 campaign_detail.innerHTML = response;
                 $('#status_select').selectpicker();
-                page_load = false;
-                $('#id_date_range').MdPersianDateTimePicker({
-                    targetTextSelector: '#id_date_range',
-                    targetDateSelector: '#id_date_range_',
+                $('#id_date_range_').MdPersianDateTimePicker({
+                    targetTextSelector: '#id_date_range_',
+                    targetDateSelector: '#id_date_range',
                     dateFormat: 'yyyy-MM-dd',
-                    range: true
+                    rangeSelector: true
                 });
-                //$('.must-be-seelcte2').select2();
+                if (!from_btn) {
+                    $.ajax({
+                            type: 'GET',
+                            url: `/campaign-list/0/`,
+                            data: `campaign_id=${id}`,
+                            success: function (response) {
+                                $(`#campaign-${id}`)[0].innerHTML = response
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        }
+                    )
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        }
+    );
+    load_campaign_messages(id);
+}
 
+function load_campaign_messages(id) {
+    // $('#')
+
+    $.ajax({
+            type: 'GET',
+            url: `/campaign-messages/`,
+            data: `campaign_id=${id}`,
+            success: function (response) {
+                $('#div_campaign_messages')[0].innerHTML = response;
             },
             error: function (error) {
                 console.log(error)

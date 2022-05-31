@@ -42,7 +42,6 @@ btnLoadMore.addEventListener('click', () => {
     get_contacts()
 })
 
-
 function load_contact_detail(id) {
     $.ajax({
             type: 'GET',
@@ -84,7 +83,6 @@ function prepare_contact_label() {
                     setTimeout(function () {
                         select2element.val(v).trigger("change");
                     }, 200);
-
                 }
             },
             createTag: function (params) {
@@ -107,7 +105,6 @@ function prepare_contact_label() {
                 }
                 return $result;
             },
-
         });
     });
 

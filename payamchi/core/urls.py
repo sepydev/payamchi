@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.campaign import CampaignAddView, CampaignView, CampaignListView, CampaignDetailView
+from .views.campaign import CampaignAddView, CampaignView, CampaignListView, CampaignDetailView, CampaignMessages
 from .views.contact import ContactListView, ContactView, ContactDetailView, ContactLabelsView, ContactAddView, \
     contact_define_labels
 from .views.contact_define_label import ContactDefineLabelAutocomplete
@@ -34,5 +34,6 @@ urlpatterns = [
     path('campaigns/', CampaignView.as_view(), name='campaigns'),
     path('campaign-list/<int:upper>/', CampaignListView.as_view(), name="campaign-list"),
     path('campaign-detail/<int:pk>/', CampaignDetailView.as_view(), name="campaign-detail"),
+    path('campaign-messages/', CampaignMessages.as_view(), name="campaign-messages"),
 
 ]
