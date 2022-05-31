@@ -1,0 +1,36 @@
+{% load static %}
+{% load jformat %}
+
+
+<a href="javascript:void(0);"
+   class=" "
+   onclick="load_campaign_detail({{ campaign.id }},true);"
+>
+    <div class="row p-2">
+        <div class="col-12">
+            <h5 class="d-flex justify-content-between align-items-center">
+                <div id="campaign-caption">
+                    {{ campaign.caption }}
+                </div>
+                {% if campaign.is_expire %}
+                    <span class="badge badge-danger badge-pill">
+                                            منقضی
+                                    </span>
+                {% else %}
+                    <span class="badge badge-success badge-pill">
+                                        فعال
+                                    </span>
+                {% endif %}
+            </h5>
+            <p class="mb-0 d-flex justify-content-between align-items-center">
+                تاریخ شروع :
+
+                {{ campaign.start_date | jformat:'%H:%M %d-%m-%Y' }}
+            </p>
+            <p class="mb-0 d-flex justify-content-between align-items-center">
+                تاریخ پایان :
+                {{ campaign.end_date | jformat:'%H:%M %d-%m-%Y' }}
+            </p>
+        </div>
+    </div>
+</a>

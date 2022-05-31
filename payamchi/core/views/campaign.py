@@ -2,7 +2,7 @@ import datetime
 
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, Q, F
+from django.db.models import Count, Q, F, Sum
 from django.forms.models import model_to_dict
 from django.shortcuts import render
 
@@ -116,6 +116,31 @@ class CampaignDetailView(LoginRequiredMixin, views.View):
     def get(self, request, pk):
         campaign = Campaign.objects.filter(pk=pk, user=request.user).first()
 
+        messages_count = Message.objects.filter(
+            campaign_id=pk, campaign__user=request.user
+        ).aggregate(
+            total=Count('messagereceiver'),
+            successful=Count(
+                expression='messagereceiver',
+                filter=Q(
+                    messagereceiver__status=MessageReceiverStatusChoices.SUCCESSFUL.value,
+                )
+            ),
+            unsuccessful=Count(
+                expression='messagereceiver',
+                filter=Q(
+                    messagereceiver__status=MessageReceiverStatusChoices.UNSUCCESSFUL.value,
+                )
+            ),
+            undefined=Count(
+                expression='messagereceiver',
+                filter=Q(
+                    messagereceiver__status=MessageReceiverStatusChoices.UNDEFINED.value,
+                )
+            ),
+            cost=Sum('cost'),
+        )
+
         form = CampaignForm(initial=model_to_dict(campaign))
         return render(
             request,
@@ -123,7 +148,8 @@ class CampaignDetailView(LoginRequiredMixin, views.View):
             context={
                 'campaign': campaign,
                 'form': form,
-                'message_types': MessageTypeChoices.choices
+                'message_types': MessageTypeChoices.choices,
+                'messages_count': messages_count
             }
         )
 
@@ -133,10 +159,20 @@ class CampaignMessages(LoginRequiredMixin, views.View):
 
     def get(self, request):
         campaign_id = request.GET['campaign_id']
+        message_type = request.GET.get('message_type', '')
+        from_date = request.GET.get('from_date', '')
+        to_date = request.GET.get('to_date', '')
+        _filter = Q(
+            campaign__user=request.user,
+            campaign_id=campaign_id,
+        )
+        if message_type:
+            _filter &= Q(message_type=message_type)
+        if from_date and to_date:
+            _filter &= Q(send_date__gte=from_date, send_date__lte=to_date)
 
         messages = Message.objects.filter(
-            campaign__user=request.user,
-            campaign_id=campaign_id
+            _filter
         ).annotate(
             total=Count('messagereceiver'),
             successful=Count(
@@ -158,7 +194,6 @@ class CampaignMessages(LoginRequiredMixin, views.View):
                 )
             ),
             send_date_only=F('send_date__date'),
-
         ).order_by('-pk')
 
         # messages = messages.values()

@@ -57,23 +57,23 @@
 
     <div class="row m-1">
         <div class="col p-3 text-center rounded mr-3 date-bx bgl-primary">
-            <h2 class="mb-0 text-black">0</h2>
+            <h2 class="mb-0 text-black">{{ messages_count.total }}</h2>
             <h5 class="mb-1 text-black text-nowrap">تعداد ارسال ها</h5>
         </div>
         <div class="col p-3 text-center rounded mr-3 date-bx bgl-success">
-            <h2 class="mb-0 text-black">3</h2>
+            <h2 class="mb-0 text-black">{{ messages_count.successful }}</h2>
             <h5 class="mb-1 text-black text-nowrap">موفق</h5>
         </div>
         <div class="col p-3 text-center rounded mr-3 date-bx bgl-danger">
-            <h2 class="mb-0 text-black">3</h2>
+            <h2 class="mb-0 text-black">{{ messages_count.unsuccessful }}</h2>
             <h5 class="mb-1 text-black text-nowrap">ناموفق</h5>
         </div>
         <div class="col p-3 text-center rounded mr-3 date-bx bgl-secondary">
-            <h2 class="mb-0 text-black">3</h2>
+            <h2 class="mb-0 text-black">{{ messages_count.undefined }}</h2>
             <h5 class="mb-1 text-black text-nowrap">نامشخص</h5>
         </div>
         <div class="col p-3 text-center rounded mr-3 date-bx bgl-info">
-            <h2 class="mb-0 text-black">3</h2>
+            <h2 class="mb-0 text-black">{{ messages_count.cost }}</h2>
             <h5 class="mb-1 text-black text-nowrap">هزینه</h5>
         </div>
 
@@ -84,47 +84,47 @@
     <div class="row m-1">
         <div class="col">
 
-                <div class="row">
-                    <div class="col-4">
+            <div class="row">
+                <div class="col-4">
 
-                        <div class="form-group ">
-                            <label>وضعیت</label>
+                    <div class="form-group ">
+                        <label>وضعیت</label>
 
 
-                            <select id="status_select" class="form-control replace-rounded">
-                                <option value="-1" selected> همه موارد</option>
-                                {% for message_type in message_types %}
-                                    <option value="{{ message_type.0 }}"> {{ message_type.1 }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <style>
-                            .replace-rounded .btn {
-                                border-radius: 1.25rem !important;
-                            }
-                        </style>
+                        <select id="status_select" class="form-control replace-rounded">
+                            <option value="-1" selected> همه موارد</option>
+                            {% for message_type in message_types %}
+                                <option value="{{ message_type.0 }}"> {{ message_type.1 }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="col-8">
-                        <div class="form-group">
-                            <label>بازه تاریخی</label>
-                            <div class="row">
-                                <div class="col-10">
-                                    <input type="text" id="id_date_range_"
-                                           class="form-control input-default "
-                                           placeholder="بازه تاریخی را انتخاب کنید"/>
-                                    <input type="text" id="id_date_range" style="display: none"/>
-                                </div>
-                                <div class="col-2 center">
-                                    <button type="submit" class="btn btn-primary btn-sm"
-                                            onclick="load_campaign_messages({{ campaign.id }})"
-                                    >
-                                        <div class="fa fa-search"></div>
-                                    </button>
-                                </div>
+                    <style>
+                        .replace-rounded .btn {
+                            border-radius: 1.25rem !important;
+                        }
+                    </style>
+                </div>
+                <div class="col-8">
+                    <div class="form-group">
+                        <label>بازه تاریخی</label>
+                        <div class="row">
+                            <div class="col-10">
+                                <input type="text" id="id_date_range_"
+                                       class="form-control input-default "
+                                       placeholder="بازه تاریخی را انتخاب کنید"/>
+                                <input type="text" id="id_date_range" style="display: none"/>
+                            </div>
+                            <div class="col-2 center">
+                                <button type="submit" class="btn btn-primary btn-sm"
+                                        onclick="load_campaign_messages({{ campaign.id }})"
+                                >
+                                    <div class="fa fa-search"></div>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
 
         </div>

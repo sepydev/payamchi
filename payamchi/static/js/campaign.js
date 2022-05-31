@@ -77,20 +77,48 @@ function load_campaign_detail(id, from_btn = false) {
 }
 
 function load_campaign_messages(id) {
-    // $('#')
+
+    let from_date = ''
+    let to_date = ''
+    let message_type = ''
+    let range_date;
+    try {
+        range_date = $('#id_date_range')[0].value
+        from_date = range_date.substring(0, 10)
+        to_date = range_date.substring(13, 23)
+    } catch (e) {
+    }
+    try {
+        message_type = $('#status_select')[0].value
+    } catch (e) {
+    }
+
+    if (message_type == -1) {
+        message_type = ''
+    }
+
+    let param = {
+        'campaign_id': id,
+        'message_type': message_type,
+        'from_date': from_date,
+        'to_date': to_date
+    }
 
     $.ajax({
             type: 'GET',
             url: `/campaign-messages/`,
-            data: `campaign_id=${id}`,
-            success: function (response) {
-                $('#div_campaign_messages')[0].innerHTML = response;
-            },
+            data: param,
+            success:
+                function (response) {
+                    $('#div_campaign_messages')[0].innerHTML = response;
+                }
+            ,
             error: function (error) {
                 console.log(error)
             }
         }
-    );
+    )
+    ;
 }
 
 

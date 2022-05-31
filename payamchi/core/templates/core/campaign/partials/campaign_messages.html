@@ -1,0 +1,58 @@
+{% load jformat %}
+
+<div class="table-responsive">
+    <table class="table primary-table-bordered">
+        <thead class="thead-primary">
+        <tr>
+            <th scope="col"></th>
+            <th scope="col" width="30%">عنوان</th>
+            <th scope="col">تعداد</th>
+            <th scope="col">موفق</th>
+            <th scope="col">ناموفق</th>
+            <th scope="col">نامشخص</th>
+            <th scope="col">هزینه</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+
+            <tr>
+                <td>
+                    {% if message.message_type == 'voice' %}
+                        <i class="fa-solid fa-volume-high"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <h5>{{ message.caption }}</h5>
+                    <span class="m-1  badge
+                     {% if message.send_date_only < today %}
+                        badge-danger
+                        {% elif message.send_date_only == today %}
+                        badge-warning
+                        {% else %}
+                        badge-success
+                        {% endif %}
+                      badge-pill">
+                        {{ message.send_date | jformat:'%H:%M %Y-%m-%d' }}
+                    </span>
+                    <p>
+                        {% for label in message.labels.all %}
+                            <span class=" badge badge-pill badge-light">
+                        {{ label.caption }}
+                            </span>
+                        {% endfor %}
+                    </p>
+
+                </td>
+                <td>{{ message.total }}</td>
+                <td>{{ message.successful }}</td>
+                <td>{{ message.unsuccessful }}</td>
+                <td>{{ message.undefined }}</td>
+                <td>{{ message.cost }}</td>
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+    </div>
