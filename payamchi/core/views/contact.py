@@ -84,31 +84,48 @@ class ContactView(LoginRequiredMixin, views.View):
 class ContactListView(LoginRequiredMixin, views.View):
 
     def get(self, request, upper):
-        caption = request.GET['caption']
-        lower = upper - 20
-        contacts = Contact.objects.filter(
-            user=request.user,
-            caption__contains=caption
-        ).annotate(
-            latest_send_date=Value('1399/12/28 23:58', TextField()),
-            count_of_receive_message=Value('12', IntegerField()),
-        ).order_by('pk')[lower:upper]
+        contact_id = request.GET.get('contact_id', None)
+        if contact_id:
+            contact = Contact.objects.filter(
+                user=request.user,
+                pk=contact_id
+            ).annotate(
+                latest_send_date=Value('1399/12/28 23:58', TextField()),
+                count_of_receive_message=Value('12', IntegerField()),
+            ).first()
+            return render(
+                request,
+                template_name='core/contacts/partials/contact_list_item.html',
+                context={
+                    'contact': contact,
+                }
+            )
+        else:
+            caption = request.GET['caption']
+            lower = upper - 20
+            contacts = Contact.objects.filter(
+                user=request.user,
+                caption__contains=caption
+            ).annotate(
+                latest_send_date=Value('1399/12/28 23:58', TextField()),
+                count_of_receive_message=Value('12', IntegerField()),
+            ).order_by('pk')[lower:upper]
 
-        page_end = lower + contacts.count()
-        count = Contact.objects.filter(
-            user=request.user,
-            caption__contains=caption
-        ).count()
+            page_end = lower + contacts.count()
+            count = Contact.objects.filter(
+                user=request.user,
+                caption__contains=caption
+            ).count()
 
-        return render(
-            request,
-            template_name='core/contacts/partials/contact_list.html',
-            context={
-                'contacts': contacts,
-                'page_end': page_end,
-                'count': count,
-            }
-        )
+            return render(
+                request,
+                template_name='core/contacts/partials/contact_list.html',
+                context={
+                    'contacts': contacts,
+                    'page_end': page_end,
+                    'count': count,
+                }
+            )
 
 
 class ContactDetailView(LoginRequiredMixin, views.View):
@@ -183,10 +200,15 @@ def contact_define_labels(request):
         }
     }
     if 'q' in request.GET:
-        modules = ContactDefineLabel.objects.filter(caption__contains=request.GET.get('q', default=' ')).order_by(
+        modules = ContactDefineLabel.objects.filter(
+            user=request.user,
+            caption__contains=request.GET.get('q', default=' ')
+        ).order_by(
             "caption")[0:5]
     else:
-        modules = ContactDefineLabel.objects.all().order_by("caption")[0:5]
+        modules = ContactDefineLabel.objects.filter(
+            user=request.user,
+        ).order_by("caption")[0:5]
 
     if modules:
         finds = []

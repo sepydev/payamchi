@@ -26,3 +26,6 @@ class Contact(BaseModel):
     class Meta:
         verbose_name = 'مخاطب'
         verbose_name_plural = 'مخاطبین'
+
+    def __str__(self):
+        return self.caption

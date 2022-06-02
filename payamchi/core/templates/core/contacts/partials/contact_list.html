@@ -3,28 +3,10 @@
 <table class="table-hover hover col-12">
     {% for contact in contacts %}
         <tr>
-            <td>
-                <a
-                        href="javascript:void()"
-                        class=" "
-                        onclick="load_contact_detail('{{ contact.id }}')">
-                    <div class="row">
-                        <div class="col-3">
-                            <img class="rounded" src="{% static '/images/profile/pic1.jpg' %}" width="70"
-                                 alt="">
-                        </div>
-                        <div class="col-9">
-                            <div class="d-flex justify-content-between align-items-center">{{ contact.caption }}</div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                {{ contact.latest_send_date }} <span
-                                    class="badge badge-primary badge-pill">{{ contact.count_of_receive_message }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </a>
-
+            <td id="contact-{{ contact.id }}">
+                {% include 'core/contacts/partials/contact_list_item.html' %}
             </td>
+
         </tr>
 
     {% endfor %}

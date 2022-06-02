@@ -14,7 +14,7 @@ const get_contacts = () => {
             data: `caption=${contact_caption}`,
             success: function (response) {
                 if (response.search('page-finished') > -1) {
-                    divLoadMore.style.display ="none"
+                    divLoadMore.style.display = "none"
 
                 }
                 contact_list.innerHTML += response
@@ -42,16 +42,34 @@ btnLoadMore.addEventListener('click', () => {
     get_contacts()
 })
 
-function load_contact_detail(id) {
+function load_contact_detail(id, from_btn = false) {
     $.ajax({
             type: 'GET',
             url: `/contact-detail/${id}/`,
             success: function (response) {
                 contact_detail.innerHTML = response
                 prepare_contact_label();
+                if (!from_btn) {
+                    reload_item_list(id)
+                }
             },
             error: function (error) {
                 console.log(error)
+            }
+        }
+    )
+}
+
+function reload_item_list(id){
+    $.ajax({
+            type: 'GET',
+            url: `/contact-list/0/`,
+            data: `contact_id=${id}`,
+            success: function (response) {
+                $(`#contact-${id}`)[0].innerHTML = response
+            },
+            error: function (error) {
+                console.log(error);
             }
         }
     )
@@ -110,13 +128,21 @@ function prepare_contact_label() {
 
     $('#contact_labels').on('select2:select', function (e) {
         let data = e.params.data;
+        console.log(data)
         if (data.newTag === true) {
             $('#contact_label_caption').val(data.text);
             $('#create_new_contact_label').modal('toggle');
         } else {
-            add_contact_label(data.element.id);
+            add_contact_label(data.id);
         }
     });
+
+    $('#contact_labels').on('select2:unselect', function (e) {
+        let data = e.params.data;
+        console.log(data.element)
+        delete_contact_label(data.element.id);
+    });
+
 }
 
 

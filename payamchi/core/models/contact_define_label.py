@@ -14,3 +14,6 @@ class ContactDefineLabel(BaseModel):
     class Meta:
         verbose_name = 'برچسب مخاطب'
         verbose_name_plural = 'برچسب های مخاطبین'
+
+    def __str__(self):
+        return self.caption

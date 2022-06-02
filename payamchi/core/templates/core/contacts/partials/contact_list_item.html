@@ -1,0 +1,22 @@
+{% load static %}
+{% load jformat %}
+
+<a
+        href="javascript:void(0)"
+        class=" "
+        onclick="load_contact_detail('{{ contact.id }}', true)">
+    <div class="row">
+        <div class="col-3">
+            <img class="rounded" src="{% static '/images/profile/pic1.jpg' %}" width="100%"
+                 alt="">
+        </div>
+        <div class="col-9">
+            <div class="d-flex justify-content-between align-items-center">{{ contact.caption }}</div>
+            <div class="d-flex justify-content-between align-items-center">
+                {{ contact.latest_send_date }} <span
+                    class="badge badge-primary badge-pill">{{ contact.count_of_receive_message }}</span>
+            </div>
+        </div>
+    </div>
+
+</a>
