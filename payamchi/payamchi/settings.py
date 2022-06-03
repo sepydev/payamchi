@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import locale
 from pathlib import Path
 
+import jdatetime
 from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'dotenv',
     'captcha',
     'fontawesomefree',
-
+    'mathfilters',
 
     # local apps
     'core.apps.CoreConfig',
@@ -146,14 +147,12 @@ AUTH_USER_MODEL = 'accounts.User'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
 SMS_CONFIG = {
     'API_KEY': env['SMS_API_KEY'],
     'ORIGINATOR': env['SMS_ORIGINATOR'],
 }
 
 CONFIRM_CODE_LENGTH = 6
-USE_TZ = True
 
 import random
 
@@ -167,3 +166,14 @@ def random_digit_challenge():
 
 CAPTCHA_CHALLENGE_FUNCT = random_digit_challenge
 
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'Asia/Tehran'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+locale.setlocale(locale.LC_ALL, 'Persian_Iran')

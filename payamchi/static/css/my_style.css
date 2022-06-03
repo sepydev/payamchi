@@ -1,0 +1,47 @@
+.hide_arrow_number::-webkit-inner-spin-button,
+.hide_arrow_number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.badge-multi-color-0, .select2-selection__choice:nth-child(8n+1), .badge-multi-color:nth-child(8n+1) {
+    background-color: #222fb9 !important;
+    color: #fff !important;
+}
+
+.badge-multi-color-1, .select2-selection__choice:nth-child(8n+2), .badge-multi-color:nth-child(8n+2) {
+    color: #212529 !important;
+    background-color: #ffe600 !important;
+}
+
+.badge-multi-color-2, .select2-selection__choice:nth-child(8n+3), .badge-multi-color:nth-child(8n+3) {
+    color: #fff !important;
+    background-color: #21b731 !important;
+}
+
+.badge-multi-color-3, .select2-selection__choice:nth-child(8n+4), .badge-multi-color:nth-child(8n+4) {
+    color: #fff !important;
+    background-color: #2781d5 !important;
+}
+
+.badge-multi-color-4, .select2-selection__choice:nth-child(8n+5), .badge-multi-color:nth-child(8n+5) {
+    color: #fff !important;
+    background-color: #ff7a01 !important;
+}
+
+.badge-multi-color-5, .select2-selection__choice:nth-child(8n+6), .badge-multi-color:nth-child(8n+6) {
+    color: #fff !important;
+    background-color: #ff2625 !important;
+}
+
+.badge-multi-color-6, .select2-selection__choice:nth-child(8n+7), .badge-multi-color:nth-child(8n+7) {
+    color: #212529 !important;
+    background-color: #f4f4f4 !important;
+}
+
+.badge-multi-color-7, .select2-selection__choice:nth-child(8n+8), .badge-multi-color:nth-child(8n+8) {
+    color: #fff !important;
+    background-color: #6e6e6e !important;
+}
+
+
+

@@ -242,7 +242,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
   @font-face {
     font-family: iranyekan;
-    src: url('../fonts/IRANYekanWebRegular.ttf');
+    src: url('../fonts/iranyekanwebregular.ttf');
   }
 *,
 *::before,

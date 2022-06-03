@@ -73,7 +73,7 @@
             <h5 class="mb-1 text-black text-nowrap">نامشخص</h5>
         </div>
         <div class="col p-3 text-center rounded mr-3 date-bx bgl-info">
-            <h2 class="mb-0 text-black">{{ messages_count.cost }}</h2>
+            <h2 class="mb-0 text-black">{{ message_cost.cost| default_if_none:"0" }}</h2>
             <h5 class="mb-1 text-black text-nowrap">هزینه</h5>
         </div>
 

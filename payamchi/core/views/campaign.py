@@ -115,7 +115,11 @@ class CampaignDetailView(LoginRequiredMixin, views.View):
 
     def get(self, request, pk):
         campaign = Campaign.objects.filter(pk=pk, user=request.user).first()
-
+        message_cost = Message.objects.filter(
+            campaign_id=pk, campaign__user=request.user
+        ).aggregate(
+            cost=Sum('cost'),
+        )
         messages_count = Message.objects.filter(
             campaign_id=pk, campaign__user=request.user
         ).aggregate(
@@ -138,7 +142,7 @@ class CampaignDetailView(LoginRequiredMixin, views.View):
                     messagereceiver__status=MessageReceiverStatusChoices.UNDEFINED.value,
                 )
             ),
-            cost=Sum('cost'),
+
         )
 
         form = CampaignForm(initial=model_to_dict(campaign))
@@ -149,7 +153,8 @@ class CampaignDetailView(LoginRequiredMixin, views.View):
                 'campaign': campaign,
                 'form': form,
                 'message_types': MessageTypeChoices.choices,
-                'messages_count': messages_count
+                'messages_count': messages_count,
+                'message_cost': message_cost
             }
         )
 

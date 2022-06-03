@@ -42,7 +42,9 @@ class RegisterForm(forms.ModelForm):
             Column(Field('father')),
             css_class='form-row'
         ),
-        Field('birth_date', css_class='d-none'),
+        Div(
+            Field('birth_date')
+            , css_class='d-none'),
         Div(
             Submit('submit', 'مرحله بعد', css_class='col-3 btn btn-primary btn-block'),
             css_class='text-center mt-4'

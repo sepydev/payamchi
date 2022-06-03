@@ -13,6 +13,7 @@ class ForgetPasswordForm(forms.Form):
     mobile = forms.CharField(
         validators=[MobileValidator()],
         error_messages={**ERROR_MESSAGES_REQUIRED},
+        label='موبایل'
     )
     helper = FormHelper()
     helper.layout = Layout(

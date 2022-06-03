@@ -7,6 +7,14 @@ const list_size = 10
 let upper = list_size
 let campaign_caption = ""
 
+campaign_caption_search.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        search_campaigns();
+    }
+});
+
+
 const get_campaigns = () => {
     $.ajax({
             type: 'GET',

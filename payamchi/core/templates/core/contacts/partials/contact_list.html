@@ -1,6 +1,6 @@
 {% load static %}
 
-<table class="table-hover hover col-12">
+<table class="table-hover hover col-12 table-striped">
     {% for contact in contacts %}
         <tr>
             <td id="contact-{{ contact.id }}">
@@ -19,3 +19,4 @@
 {% if page_end >= count %}
     <div style="display: none">page-finished</div>
 {% endif %}
+

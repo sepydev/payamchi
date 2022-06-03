@@ -3,15 +3,30 @@ const divLoadMore = document.getElementById('divLoadMore')
 const contact_list = document.getElementById('contact_list')
 const contact_detail = document.getElementById('contact_detail')
 const contact_caption_search = document.getElementById('contact_caption_search')
+const contact_label_search = document.getElementById('contact_label_search')
 const list_size = 20
 let upper = list_size
 let contact_caption = ""
 
+
+contact_caption_search.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        search_contacts();
+    }
+});
+
+
 const get_contacts = () => {
+    contact_label = contact_label_search.value
+    let param = {
+        'caption':contact_caption,
+        'label_id': contact_label,
+    }
     $.ajax({
             type: 'GET',
             url: `/contact-list/${upper}/`,
-            data: `caption=${contact_caption}`,
+            data: param,
             success: function (response) {
                 if (response.search('page-finished') > -1) {
                     divLoadMore.style.display = "none"
@@ -30,6 +45,7 @@ const get_contacts = () => {
 function search_contacts() {
     upper = list_size
     contact_caption = contact_caption_search.value
+
     contact_list.innerHTML = ""
     divLoadMore.style.display = ""
     get_contacts()
@@ -60,7 +76,7 @@ function load_contact_detail(id, from_btn = false) {
     )
 }
 
-function reload_item_list(id){
+function reload_item_list(id) {
     $.ajax({
             type: 'GET',
             url: `/contact-list/0/`,
@@ -76,13 +92,15 @@ function reload_item_list(id){
 }
 
 function prepare_contact_label() {
-    $(document).ready(function () {
-        $('#contact_labels').select2({
+    let contact_labels = $('#contact_labels')
+
+    contact_labels.select2({
             placeholder: 'لطفا برچسب خود را وارد کنید',
             ajax: {
                 url: '/contact-define-labels/',
                 delay: 650,
             },
+            dir: "rtl",
             closeOnSelect: true,
             allowClear: true,
             tags: true,
@@ -123,26 +141,22 @@ function prepare_contact_label() {
                 }
                 return $result;
             },
-        });
-    });
 
-    $('#contact_labels').on('select2:select', function (e) {
+        });
+    contact_labels.on('select2:select', function (e) {
         let data = e.params.data;
-        console.log(data)
         if (data.newTag === true) {
             $('#contact_label_caption').val(data.text);
             $('#create_new_contact_label').modal('toggle');
         } else {
+            console.log(data.id)
             add_contact_label(data.id);
         }
     });
-
-    $('#contact_labels').on('select2:unselect', function (e) {
+    contact_labels.on('select2:unselect', function (e) {
         let data = e.params.data;
-        console.log(data.element)
         delete_contact_label(data.element.id);
     });
-
 }
 
 
@@ -181,10 +195,8 @@ function add_contact_label(id) {
                 xhr.setRequestHeader('X-CSRFToken', tokenizers);
             },
             success: function (response) {
-                console.log(response)
             },
             error: function (error) {
-                console.log(error)
             }
         }
     )
@@ -201,15 +213,9 @@ function delete_contact_label(id) {
                 xhr.setRequestHeader('X-CSRFToken', tokenizers);
             },
             success: function (response) {
-                console.log(response)
             },
             error: function (error) {
-                console.log(error)
             }
         }
     )
 }
-
-
-
-

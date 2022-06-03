@@ -16,11 +16,25 @@ class RegisterView(views.View):
     form = RegisterForm
 
     def get(self, request):
+        form = self.form
+        if request.session.get('first_name'):
+            register_user = {
+                'first_name': request.session['first_name'],
+                'last_name': request.session['last_name'],
+                'mobile': request.session['mobile'],
+                'ir_code': request.session['ir_code'],
+                'father': request.session['father'],
+                'birth_date': request.session['birth_date'],
+            }
+            form = self.form(
+                initial=register_user
+            )
+
         return render(
             request,
             template_name=self.template_name,
             context={
-                'form': self.form,
+                'form': form,
             }
         )
 
@@ -36,7 +50,7 @@ class RegisterView(views.View):
             request.session['birth_date'] = clean_data['birth_date']
             secret_code = get_secret_code()
             OTP.objects.create(secret_code=secret_code, mobile=clean_data['mobile'])
-            bulk_id = send(f" کد تایید  {secret_code}", [clean_data['mobile']])
+            bulk_id = send(secret_code, clean_data['mobile'])
             print(f" کد تایید  {secret_code}  -- {bulk_id}")
             return redirect('accounts:register_confirm')
         return render(
@@ -62,7 +76,12 @@ class RegisterConfirmView(views.View):
             'birth_date': request.session['birth_date'],
         }
         form = self.form(
-            initial={'mobile': request.session['mobile']}
+            initial={'mobile': request.session['mobile'],
+                     'confirm_code': '',
+                     'password': '',
+                     'password_confirm': '',
+
+                     }
         )
         return render(
             request,

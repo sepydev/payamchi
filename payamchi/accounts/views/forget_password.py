@@ -29,7 +29,7 @@ class ForgetPasswordView(views.View):
             request.session['mobile'] = mobile
             secret_code = get_secret_code()
             OTP.objects.create(secret_code=secret_code, mobile=clean_data['mobile'])
-            bulk_id = send(f" کد تایید  {secret_code}", [clean_data['mobile']])
+            bulk_id = send(secret_code, clean_data['mobile'])
             print(f" کد تایید  {secret_code}  -- {bulk_id}")
             return redirect('accounts:reset_password')
         return render(

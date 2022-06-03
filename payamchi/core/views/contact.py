@@ -1,6 +1,6 @@
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import TextField, Value, IntegerField, Count, Q
+from django.db.models import TextField, Value, IntegerField, Q
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -54,15 +54,24 @@ class ContactAddView(LoginRequiredMixin, views.View):
 
 class ContactView(LoginRequiredMixin, views.View):
 
-    def get(self, request):
+    def get(self, request, label_id: int = None):
+        contact_filter = Q(
+            user=request.user,
+        )
+        if label_id:
+            contact_filter &= Q(
+                labels__id=label_id
+            )
+
         contact = Contact.objects.filter(
-            user=request.user
+            contact_filter
         ).first()
         return render(
             request,
             template_name='core/contacts/contact.html',
             context={
-                'contact': contact
+                'contact': contact,
+                'label_id': label_id,
             }
         )
 
@@ -102,10 +111,19 @@ class ContactListView(LoginRequiredMixin, views.View):
             )
         else:
             caption = request.GET['caption']
+            label_id = request.GET.get('label_id', None)
+            label_id = label_id if label_id != 'None' else None
             lower = upper - 20
-            contacts = Contact.objects.filter(
+            contact_filter = Q(
                 user=request.user,
                 caption__contains=caption
+            )
+            if label_id:
+                contact_filter &= Q(
+                    labels__id=label_id
+                )
+            contacts = Contact.objects.filter(
+                contact_filter
             ).annotate(
                 latest_send_date=Value('1399/12/28 23:58', TextField()),
                 count_of_receive_message=Value('12', IntegerField()),

@@ -24,7 +24,7 @@
                 </td>
                 <td>
                     <h5>{{ message.caption }}</h5>
-                    <span class="m-1  badge
+                    <span class="m-0 p-1  badge
                      {% if message.send_date_only < today %}
                         badge-danger
                         {% elif message.send_date_only == today %}
@@ -33,11 +33,11 @@
                         badge-success
                         {% endif %}
                       badge-pill">
-                        {{ message.send_date | jformat:'%H:%M %Y-%m-%d' }}
+                        {{ message.send_date | jformat:"%d %B %Y ساعت %H:%M" }}
                     </span>
                     <p>
                         {% for label in message.labels.all %}
-                            <span class=" badge badge-pill badge-light">
+                            <span class=" badge badge-pill badge-multi-color p-1 m-0">
                         {{ label.caption }}
                             </span>
                         {% endfor %}

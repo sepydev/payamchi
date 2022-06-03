@@ -1,0 +1,14 @@
+{% load mathfilters %}
+
+{% for label in labels %}
+    <li>
+        <a href="{% url 'core:contacts' label_id=label.id %}">
+        <span class=" badge badge-circle badge-multi-color-{{ forloop.counter|mod:8 }} p-1">
+        </span>
+            {{ label.caption }}
+            </span>
+
+        </a>
+    </li>
+
+{% endfor %}

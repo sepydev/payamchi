@@ -22,15 +22,14 @@
                                     </span>
                 {% endif %}
             </h5>
-            <p class="mb-0 d-flex justify-content-between align-items-center">
-                تاریخ شروع :
-
-                {{ campaign.start_date | jformat:'%H:%M %d-%m-%Y' }}
-            </p>
-            <p class="mb-0 d-flex justify-content-between align-items-center">
-                تاریخ پایان :
-                {{ campaign.end_date | jformat:'%H:%M %d-%m-%Y' }}
-            </p>
+            <span class="badge light badge-success mb-0 d-flex justify-content-between align-items-center">
+                 شروع :
+                {{ campaign.start_date | jformat:"%d %B %Y ساعت %H:%M" }}
+            </span>
+            <label class="badge light badge-danger mb-0 mt-1 d-flex justify-content-between align-items-center">
+                 پایان :
+                {{ campaign.end_date | jformat:"%d %B %Y ساعت %H:%M" }}
+            </label>
         </div>
     </div>
 </a>

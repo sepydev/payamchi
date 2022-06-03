@@ -19,6 +19,7 @@ urlpatterns = [
     path('contact-add/<int:pk>/', ContactAddView.as_view(), name='contact-edit'),
 
     path('contacts/', ContactView.as_view(), name='contacts'),
+    path('contacts/<int:label_id>/', ContactView.as_view(), name='contacts'),
     path('contact-list/<int:upper>/', ContactListView.as_view(), name="contact-list"),
     path('contact-detail/<int:pk>/', ContactDetailView.as_view(), name="contact-detail"),
 

@@ -10,3 +10,11 @@ MobileValidator = partial(
         "شماره موبایل وارد شده معتبر نمی باشد"
     )
 )
+
+PhoneValidator = partial(
+    RegexValidator,
+    regex=r'^\0?\d{11}$',
+    message=(
+        "شماره تلفن وارد شده معتبر نمی باشد"
+    )
+)

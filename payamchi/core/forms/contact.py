@@ -2,7 +2,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Field, Submit
 from django import forms
 
-from .form_field import MobileValidator
+from .form_field import MobileValidator, PhoneValidator
 from ..forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID, ERROR_MESSAGES_EMAIL_INVALID
 from ..models import Contact
 
@@ -16,6 +16,15 @@ class ContactForm(forms.ModelForm):
         },
         required=False,
     )
+    tel = forms.CharField(
+        label='تلفن',
+        validators=[PhoneValidator()],
+        error_messages={
+            **ERROR_MESSAGES_REQUIRED
+        },
+        required=False,
+    )
+
     helper = FormHelper()
     helper.layout = Layout(
         Field('caption'),
@@ -65,7 +74,7 @@ class ContactForm(forms.ModelForm):
                 not self.cleaned_data.get('whatsapp_id', None)
         ):
             raise forms.ValidationError(
-                message='یکی از فیلد های مخاطب بایستی پر شود',
+                message='یکی از فیلد های (موبایل، تلفن، پست الکترونیک، تلگرام یا واتس اپ) بایستی پر شود',
 
             )
         return self.cleaned_data
