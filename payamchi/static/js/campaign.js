@@ -6,8 +6,10 @@ const campaign_caption_search = document.getElementById('campaign_caption_search
 const list_size = 10
 let upper = list_size
 let campaign_caption = ""
+let from_date = ''
+let to_date = ''
 
-campaign_caption_search.addEventListener("keypress", function(event) {
+campaign_caption_search.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
         search_campaigns();
@@ -16,10 +18,16 @@ campaign_caption_search.addEventListener("keypress", function(event) {
 
 
 const get_campaigns = () => {
+    let param = {
+        'caption': campaign_caption,
+        'from_date': from_date,
+        'to_date': to_date,
+    }
+
     $.ajax({
             type: 'GET',
             url: `/campaign-list/${upper}/`,
-            data: `caption=${campaign_caption}`,
+            data: param,
             success: function (response) {
                 if (response.search('page-finished') > -1) {
                     divLoadMore.style.display = "none";
@@ -38,6 +46,20 @@ function search_campaigns() {
     campaign_caption = campaign_caption_search.value
     campaign_list.innerHTML = ""
     divLoadMore.style.display = ""
+    from_date = ''
+    to_date = ''
+
+    let message_type = ''
+    let range_date;
+    try {
+        range_date = $('#campaign_date_range')[0].value
+        from_date = range_date.substring(0, 10)
+        to_date = range_date.substring(13, 23)
+
+    } catch (e) {
+        console.log(e)
+    }
+
     get_campaigns()
 }
 
@@ -116,10 +138,14 @@ function load_campaign_messages(id) {
             type: 'GET',
             url: `/campaign-messages/`,
             data: param,
-            success:
-                function (response) {
+            success: function (response) {
+                setTimeout(function () {
+
+
                     $('#div_campaign_messages')[0].innerHTML = response;
-                }
+                }, 300);
+
+            }
             ,
             error: function (error) {
                 console.log(error)

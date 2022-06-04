@@ -87,10 +87,21 @@ class CampaignListView(LoginRequiredMixin, views.View):
         else:
             template_name = 'core/campaign/partials/campaign_list.html'
             caption = request.GET['caption']
-            lower = upper - 10
-            campaigns = Campaign.objects.filter(
+            from_date = request.GET.get('from_date', None)
+            to_date = request.GET.get('to_date', None)
+            campaign_filter = Q(
                 user=request.user,
                 caption__contains=caption
+            )
+            if from_date and to_date:
+                campaign_filter &= Q(
+                    start_date__lte=to_date,
+                    end_date__gte=from_date
+                )
+
+            lower = upper - 10
+            campaigns = Campaign.objects.filter(
+                campaign_filter
             ).order_by('pk')[lower:upper]
 
             page_end = lower + campaigns.count()
