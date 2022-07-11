@@ -2,10 +2,11 @@ from django.urls import path
 
 from .views.campaign import CampaignAddView, CampaignView, CampaignListView, CampaignDetailView, CampaignMessages
 from .views.contact import ContactListView, ContactView, ContactDetailView, ContactLabelsView, ContactAddView, \
-    contact_define_labels
+    contact_define_labels, ContactImport, ContactImportSelectColumn
 from .views.contact_define_label import ContactDefineLabelAutocomplete
 from .views.home import HomeView
 from .views.inbox import InboxView
+from .views.message import MessageAddView
 
 app_name = 'core'
 
@@ -22,6 +23,17 @@ urlpatterns = [
     path('contacts/<int:label_id>/', ContactView.as_view(), name='contacts'),
     path('contact-list/<int:upper>/', ContactListView.as_view(), name="contact-list"),
     path('contact-detail/<int:pk>/', ContactDetailView.as_view(), name="contact-detail"),
+    path('contact-import/', ContactImport.as_view(), name="contact-import"),
+    path(
+        'contact-import-select-columns/<str:file_name>/',
+        ContactImportSelectColumn.as_view(),
+        name="contact-import-select-columns"
+    ),
+    path(
+        'contact-import-select-columns/',
+        ContactImportSelectColumn.as_view(),
+        name="contact-import-select-columns"
+    ),
 
     path('contact-labels/', ContactLabelsView.as_view(), name="contact-labels"),
     path('contact-labels/<int:contact_id>/<int:label_id>/', ContactLabelsView.as_view(), name="contact-labels"),
@@ -36,5 +48,8 @@ urlpatterns = [
     path('campaign-list/<int:upper>/', CampaignListView.as_view(), name="campaign-list"),
     path('campaign-detail/<int:pk>/', CampaignDetailView.as_view(), name="campaign-detail"),
     path('campaign-messages/', CampaignMessages.as_view(), name="campaign-messages"),
+
+    # message
+    path('message-add/', MessageAddView.as_view(), name='message-add'),
 
 ]

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="container-fluid  ">
+        <div>
+            <h3>لطفا ارتباط ستونها مخاطب با فایل ورودی را مشخص نمایید</h3>
+            <form class="form " novalidate
+                  action="{% url 'core:contact-import-select-columns' %}" method="post">
+
+                {% if form.errors %}
+                    <div style="display: none" class="invalid-feedback"></div>
+                {% endif %}
+
+                {#            <input name="pk" value="{{ pk }}" hidden>#}
+                {% csrf_token %}
+                {% crispy form %}
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

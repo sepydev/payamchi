@@ -1,3 +1,7 @@
+import contextlib
+
+import pandas as pd
+from django import forms
 from django import views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import TextField, Value, IntegerField, Q
@@ -5,7 +9,8 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from ..forms.contact import ContactForm
+from payamchi import settings
+from ..forms.contact import ContactForm, ContactImportForm
 from ..models import Contact, ContactDefineLabel
 
 
@@ -241,3 +246,125 @@ def contact_define_labels(request):
         data["results"] = finds
 
     return JsonResponse(data=data)
+
+
+def handle_uploaded_file(f, filename):
+    with open('media/' + filename, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+    return filename
+
+
+class ContactImport(LoginRequiredMixin, views.View):
+    def post(self, request):
+        try:
+            if request.FILES['file']:
+                file_name = handle_uploaded_file(request.FILES['file'], request.POST['filename'])
+                return JsonResponse(data={
+                    'file_name': file_name
+                }
+                )
+                # return redirect('core:contact-import-select-columns', file_name=file_name)
+
+        except Exception as identifier:
+            print('error in import contact file')
+            print(identifier)
+
+    def get(self, request):
+        return render(request, 'core/contacts/contact_import.html', {})
+
+
+def clean_excel_cell(value: str) -> str:
+    return None if str(value).lower() == 'nan' or str(value).lower() == 'None' or not str(value) else str(value)
+
+
+def save_tags(contact_db, tags):
+    pass
+
+
+def get_cell(db_frame, cleaned_data, column):
+    with contextlib.suppress(Exception):
+        return clean_excel_cell(getattr(db_frame, cleaned_data[column]))
+    return ''
+
+
+def save_contact_item(db_frame, cleaned_data, user):
+    caption = get_cell(db_frame, cleaned_data, 'caption')
+    mobile = get_cell(db_frame, cleaned_data, 'mobile')
+    mobile = '0' + mobile if mobile else None
+    tel = get_cell(db_frame, cleaned_data, 'tel')
+    tel = '0' + tel if tel else None
+    email = get_cell(db_frame, cleaned_data, 'email')
+    telegram_id = get_cell(db_frame, cleaned_data, 'telegram_id')
+    whatsapp_id = get_cell(db_frame, cleaned_data, 'whatsapp_id')
+    tags = clean_excel_cell(cleaned_data['tags'])
+    if caption:
+        if mobile or tel or email or telegram_id or whatsapp_id:
+            contact_db = Contact.objects.filter(
+                Q(user=user) &
+                Q(
+                    Q(caption=caption) |
+                    Q(mobile=mobile)
+                )
+            )
+            if not contact_db:
+                contact_item_form = ContactForm(
+                    data={
+                        'caption': caption,
+                        'tel': tel,
+                        'mobile': mobile,
+                        'email': email,
+                        'telegram_id': telegram_id,
+                        'whatsapp_id': whatsapp_id,
+                    })
+                if contact_item_form.is_valid():
+                    contact_db = Contact.objects.create(
+                        **contact_item_form.cleaned_data,
+                        user_id=user.id
+                    )
+
+            save_tags(contact_db, tags)
+
+
+class ContactImportSelectColumn(LoginRequiredMixin, views.View):
+    def get(self, request, file_name):
+        excel_data = pd.read_excel(
+            str(settings.BASE_DIR) + '\\media\\' + file_name
+        )
+        columns = [('', '')]
+        for col in excel_data.columns.values:
+            columns.append((col, col))
+        form = ContactImportForm()
+        for field in form.fields:
+            if type(form.fields[field]) == forms.ChoiceField:
+                form.fields[field].choices = columns
+        form.fields['file_name'].initial = file_name
+        return render(
+            request, 'core/contacts/contact_import_select_column.html',
+            {
+                'form': form,
+            }
+        )
+
+    def post(self, request):
+        form = ContactImportForm(request.POST)
+        excel_data = pd.read_excel(
+            str(settings.BASE_DIR) + '\\media\\' + request.POST['file_name']
+        )
+        columns = [('', '')]
+        for col in excel_data.columns.values:
+            columns.append((col, col))
+        for field in form.fields:
+            if type(form.fields[field]) == forms.ChoiceField:
+                form.fields[field].choices = columns
+
+        if form.is_valid():
+            for db_frame in excel_data.itertuples():
+                save_contact_item(db_frame, form.cleaned_data, request.user)
+
+        return render(
+            request, 'core/contacts/contact_import_select_column.html',
+            {
+                'form': form,
+            }
+        )

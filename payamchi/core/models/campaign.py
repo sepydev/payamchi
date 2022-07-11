@@ -22,3 +22,9 @@ class Campaign(BaseModel):
     class Meta:
         verbose_name = 'کمپین'
         verbose_name_plural = 'کمپین ها'
+
+    def __str__(self):
+        return self.caption
+
+    def __repr__(self):
+        return self.caption

@@ -8,7 +8,7 @@ from .message_template import MessageTypeChoices
 User = get_user_model()
 
 
-class Chanel(BaseModel):
+class Channel(BaseModel):
     caption = models.CharField(verbose_name=_('عنوان'), max_length=250)
     message_type = models.CharField(
         verbose_name=_('نوع پیام'),
@@ -24,3 +24,9 @@ class Chanel(BaseModel):
     class Meta:
         verbose_name = 'کانال'
         verbose_name_plural = 'کانال ها'
+
+    def __repr__(self):
+        return self.caption
+
+    def __str__(self):
+        return self.caption

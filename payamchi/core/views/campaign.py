@@ -38,9 +38,6 @@ class CampaignAddView(LoginRequiredMixin, views.View):
                 campaign.description = form.cleaned_data['description']
                 campaign.save()
             else:
-                data = form.cleaned_data
-                data.pop('start_date_persian')
-                data.pop('end_date_persian')
                 campaign = Campaign.objects.create(**form.cleaned_data, user=request.user)
                 campaign.save()
         return render(

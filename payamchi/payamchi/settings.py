@@ -177,3 +177,5 @@ USE_L10N = True
 USE_TZ = True
 
 locale.setlocale(locale.LC_ALL, 'Persian_Iran')
+
+MEDIA_ROOT = BASE_DIR / 'media'

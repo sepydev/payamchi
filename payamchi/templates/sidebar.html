@@ -28,6 +28,9 @@
 
 
                     <li><a href="{% url 'core:contacts' %}">دفترچه مخاطبان</a></li>
+                    <li><a href="{% url 'core:contact-import' %}">ثبت گروهی مخاطبین</a></li>
+
+
                     <li><a class="has-arrow" href="javascript:void(0)" aria-expanded="false">برچسب ها</a>
                         <ul aria-expanded="false">
                             <div id="div_contact_label_menu">
@@ -45,22 +48,26 @@
                 <ul aria-expanded="false">
 
                     <li>
-                        <a
-                                data-action="{% url 'core:campaign-add' %}"
-                                data-title="کمپین جدید"
-                                data-subtitle=""
-                                data-icon="fa-keyboard-o"
-                                data-button-save-label="ذخیره"
-                                onclick="openMyModal(event,null,null); return false;">
-                            کمپین جدید
+                        <a href="javascript:void(0)">
+                            <button class="btn btn-success p-2"
+                                    data-action="{% url 'core:campaign-add' %}"
+                                    data-title="کمپین جدید"
+                                    data-subtitle=""
+                                    data-icon="fa-keyboard-o"
+                                    data-button-save-label="ذخیره"
+                                    onclick="openMyModal(event,null,null); return false;">
+                                کمپین جدید
+                            </button>
                         </a>
+
+
                     </li>
 
                     <li><a href="{% url 'core:campaigns' %}">
                         لیست کمپین ها
                     </a></li>
                     {#                    <li><a href="ui-alert.html">#}
-                    {#                        کمپین های فعال#}
+                    {#                        کمپین های فعال #}
                     {#                    </a></li>#}
                     {#                    <li><a href="ui-badge.html">کمپین های غیر فعال</a></li>#}
                 </ul>
@@ -70,6 +77,23 @@
                 <span class="nav-text">صندوق پیام</span>
             </a>
                 <ul aria-expanded="false">
+
+                    <li>
+                        <a href="javascript:void(0)">
+                            <button class="btn btn-success p-2"
+                                    data-action="{% url 'core:message-add' %}"
+                                    data-title="پیام جدید"
+                                    data-subtitle=""
+                                    data-icon="fa-keyboard-o"
+                                    data-button-save-label="ادامه"
+                                    onclick="openMyModal(event,null,null); return false;">
+                                پیام جدید
+                            </button>
+                        </a>
+
+
+                    </li>
+
                     <li><a href="{% url 'core:inbox' %}">صندوق ورودی</a></li>
                     <li><a href="uc-nestable.html">صندوق خروجی</a></li>
                     <li><a href="uc-noui-slider.html">پیش نویس</a></li>

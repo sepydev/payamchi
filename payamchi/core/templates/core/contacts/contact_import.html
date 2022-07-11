@@ -1,32 +1,33 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+{% extends 'base.html' %}
+{% load static %}
+
+
+
 {% block content %}
-    <div class="shadow-lg continer">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
 
-            <div class="row">
-                <div class="col-md-6 col-xs-12">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Excel Data Upload</h2>
-
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-
-                            <div class="col-md-8 col-sm-12 col-xs-12 form-group">
-
-                                </label>
-                            </div>
-
-                            <input type="file" name="myfile" class="form-control">
-                            <button type="submit" class="btn btn-success" >Upload</button>
-                            <br/>
-                        </div>
-                    </div>
-                </div>
+    <div id="import_section">
+        <div class="col-lg-6 col-md-6" style="margin: 20px auto; display: block;">
+            <div class="drop-box" id="dropBox" style="width: 100%; height: 200px; border: 4px dashed gray;">
+                <p style="text-align: center; vertical-align: middle; line-height: 200px; font-size: 24px; color: gray;">
+                    فایل خود را به این قسمت بکشید</p>
             </div>
-        </form>
+            <form enctype="multipart/form-data" method="POST" action="" style="text-align: center;">
+                <p style="color: gray; padding-top: 20px;">یا</p>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>فایل خود را انتخاب کنید</label>
+                    <input type="file" class="form-control" id="fileupload" placeholder="فایل خود را انتخاب کنید">
+                </div>
+                <input type="submit" value="بارگذاری" id="submit" class="btn btn-success">
+            </form>
+            <div id="uploaded_files"></div>
+        </div>
     </div>
 
+{% endblock %}
+
+
+
+{% block scripts %}
+    <script src="{% static 'js/import_excel.js' %}"></script>
 {% endblock %}
