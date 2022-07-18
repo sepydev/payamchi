@@ -6,7 +6,7 @@ from .views.contact import ContactListView, ContactView, ContactDetailView, Cont
 from .views.contact_define_label import ContactDefineLabelAutocomplete
 from .views.home import HomeView
 from .views.inbox import InboxView
-from .views.message import MessageAddView
+from .views.message import MessageAddPartiallyView, MessageAddView, MessageView, MessageListView, MessageDetailView
 
 app_name = 'core'
 
@@ -50,6 +50,18 @@ urlpatterns = [
     path('campaign-messages/', CampaignMessages.as_view(), name="campaign-messages"),
 
     # message
+    path('message-add-partially/', MessageAddPartiallyView.as_view(), name='message-add-partially'),
+    path('message-add/<str:message_type>/<str:campaign>', MessageAddView.as_view(), name='message-add'),
     path('message-add/', MessageAddView.as_view(), name='message-add'),
+    path('messages/', MessageView.as_view(), name='messages'),
+    path('message-list/<int:upper>/', MessageListView.as_view(), name='message-list'),
+    path('message-detail/<int:pk>/', MessageDetailView.as_view(), name='message-detail'),
+
+    # message template
+    # to do: fix it, this only add to ignore the error
+    path('message-template-add/', MessageAddView.as_view(), name ='message-template-add'),
+
+
+
 
 ]

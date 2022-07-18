@@ -24,8 +24,8 @@ class MessageStatusChoices(models.IntegerChoices):
 class Message(BaseModel):
     caption = models.CharField(verbose_name=_('عنوان'), max_length=250)
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('نام کاربری'))
-    chanel = models.ForeignKey(Channel, on_delete=models.CASCADE, verbose_name=_('کانال ارسال'), null=True, blank=True)
-    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name=_('کمپین'))
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE, verbose_name=_('کانال ارسال'), null=True, blank=True)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, verbose_name=_('کمپین'), null=True, blank=True)
     send_date = models.DateTimeField(verbose_name=_('تاریخ ارسال'))
     status = models.IntegerField(
         verbose_name=_('وضعیت'),
@@ -63,3 +63,6 @@ class Message(BaseModel):
     class Meta:
         verbose_name = 'پیام'
         verbose_name_plural = 'پیام ها'
+
+    def __str__(self):
+        return self.caption

@@ -50,7 +50,17 @@
             </div>
             <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                  style="position: absolute; transform: translate3d(-55px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
-                <a class="dropdown-item" href="javascript:void(0);">پیام صوتی</a>
+                <a class="dropdown-item"
+                        data-action="{% url 'core:message-add' message_type='voice' campaign=' ' %}"
+                        data-title="پیام صوتی"
+                        data-subtitle=""
+                        data-icon="fa-keyboard-o"
+                        data-button-save-label="ادامه"
+                        onclick="openMyModal(event,null,null); return false;">
+                    پیام صوتی
+
+
+                </a>
                 <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">
                     پیام متنی
                 </a>

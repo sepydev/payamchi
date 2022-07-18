@@ -1,0 +1,21 @@
+{% load static %}
+{% load jformat %}
+
+<table class="table-hover hover col-12 table-striped">
+    {% for message in messages %}
+        <tr>
+            <td id="message-{{ message.id }}">
+                {% include 'core/message/partials/message_list_item.html' %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<hr>
+<p class="text-right">
+    {{ page_end }}از
+    {{ count }}
+</p>
+{% if page_end >= count %}
+    <div style="display: none">page-finished</div>
+{% endif %}

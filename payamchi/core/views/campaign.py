@@ -209,16 +209,6 @@ class CampaignMessages(LoginRequiredMixin, views.View):
             send_date_only=F('send_date__date'),
         ).order_by('-pk')
 
-        # messages = messages.values()
-
-        # for message in messages:
-        #     if message["send_date"].timestamp() < datetime.datetime.now().timestamp():
-        #         message['text_class'] = 'danger'
-        #     elif message["send_date"].date() == datetime.date.today():
-        #         message['text_class'] = 'warning'
-        #     else:
-        #         message['text_class'] = 'success'
-
         return render(
             request,
             template_name=self.template_name,

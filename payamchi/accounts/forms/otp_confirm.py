@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from captcha.fields import CaptchaField
+from core.forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Layout, Field, Submit, Row, Column
 from django import forms
@@ -8,7 +9,6 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 from ..models import OTP
-from core.forms import ERROR_MESSAGES_REQUIRED, ERROR_MESSAGES_INVALID
 
 User = get_user_model()
 

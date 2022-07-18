@@ -12,7 +12,15 @@
                 </div>
                 <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end"
                      style="position: absolute; transform: translate3d(-55px, 24px, 0px); top: 0px; left: 0px; will-change: transform;">
-                    <a class="dropdown-item" href="javascript:void(0);">پیام صوتی</a>
+                    <a class="dropdown-item"
+                       data-action="{% url 'core:message-add' message_type='voice' campaign=campaign.id  %}"
+                       data-title="پیام صوتی"
+                       data-subtitle=""
+                       data-icon="fa-keyboard-o"
+                       data-button-save-label="ادامه"
+                       onclick="openMyModal(event,null,null); return false;">
+                        پیام صوتی
+                    </a>
                     <a class="dropdown-item" data-toggle="modal" data-target="#underConstruction">
                         پیام متنی
                     </a>
@@ -43,7 +51,7 @@
                         data-subtitle=""
                         data-icon="fa-keyboard-o"
                         data-button-save-label="ذخیره"
-                        onclick="openMyModal(event,load_campaign_detail , {{ campaign.id }} ); return false;">
+                        onclick="openMyModal(event,loadCampaignDetail , {{ campaign.id }} ); return false;">
                     ویرایش
                 </button>
 
@@ -116,7 +124,7 @@
                             </div>
                             <div class="col-2 center">
                                 <button type="submit" class="btn btn-primary btn-sm"
-                                        onclick="load_campaign_messages({{ campaign.id }})"
+                                        onclick="loadCampaignMessages({{ campaign.id }})"
                                 >
                                     <div class="fa fa-search"></div>
                                 </button>
