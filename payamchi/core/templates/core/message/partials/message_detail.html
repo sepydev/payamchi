@@ -2,6 +2,18 @@
 {% load crispy_forms_tags %}
 <div class="row">
     <div class="col-sm-12">
+        <div class=" p-2">
+            {% for status in message_status %}
+                <button type="button" class="btn
+                {% if status.0 == message.status %}
+                btn-primary
+                {% else %}
+             btn-light
+             {% endif %}
+              btn-arrow-left    ">{{ status.1 }}</button>
+            {% endfor %}
+        </div>
+
         <form class="form" nocalidate autocomplete="off"
               action="{% url 'core:message-add' %}" method="post">
             {% if form.errors %}

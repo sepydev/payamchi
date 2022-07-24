@@ -1,0 +1,92 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-sm-12">
+
+        <div id="import_section">
+            <div class="col-lg-6 col-md-6" style="margin: 20px auto; display: block;">
+                <form
+                        method="POST" action="{% url 'core:message-template-add' %}"
+                        novalidate
+                        autocomplete="off"
+                >
+                    {% csrf_token %}
+                    {% if title_is_empty or file_not_uploaded %}
+                        <div style="display: none" class="invalid-feedback"></div>
+                    {% endif %}
+
+
+                    <div id="div_id_caption" class="form-group">
+                        <label for="id_caption" class=" requiredField">
+                            عنوان<span class="asteriskField">*</span>
+                        </label>
+                        <div>
+                            <input type="text" name="caption" maxlength="250" class="textinput textInput form-control
+                                        {% if title_is_empty %}
+                                        is-invalid
+                                        {% endif %}
+                                        "
+                                   required="" id="id_caption">
+                            {% if title_is_empty %}
+                                <span id="error_1_id_caption" class="invalid-feedback">
+                                <strong>این فیلد اجباری می باشد.</strong>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>فایل خود را انتخاب کنید</label>
+                        <input type="file" class="form-control
+                                                     {% if file_not_uploaded %}
+                                                          is-invalid
+                                                     {% endif %}"
+                               id="fileupload"
+                               placeholder="فایل خود را انتخاب کنید"
+                        >
+                        {% if file_not_uploaded %}
+                            <span id="error_1_fileupload" class="invalid-feedback">
+                                <strong>فایل اپلود نشده است.</strong>
+                            </span>
+                        {% endif %}
+
+                    </div>
+                    <div class="row">
+                        <button id="submit" class="btn btn-success">بارگذاری</button>
+                    </div>
+
+                </form>
+                <audio controls id="id_audio">
+                </audio>
+
+                <div id="uploaded_files"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+{% block scripts %}
+    {% if not import_voice_is_loaded %}
+        <script src="{% static 'js/import_voice.js' %}"></script>
+    {% endif %}
+
+
+    <script>
+
+        (function ($) {
+            $('#submit').on('click', (event) => {
+                event.preventDefault();
+                var uploader = new FileUpload(document.querySelector('#fileupload'))
+                console.log(document.querySelector('#fileupload'));
+                uploader.upload();
+            });
+        })(jQuery);
+
+    </script>
+
+{% endblock %}

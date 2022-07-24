@@ -28,3 +28,7 @@ class MessageTemplate(BaseModel):
     class Meta:
         verbose_name = 'قالب پیام'
         verbose_name_plural = 'قالبهای پیام'
+
+
+    def __str__(self):
+        return self.caption

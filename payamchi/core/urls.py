@@ -7,6 +7,7 @@ from .views.contact_define_label import ContactDefineLabelAutocomplete
 from .views.home import HomeView
 from .views.inbox import InboxView
 from .views.message import MessageAddPartiallyView, MessageAddView, MessageView, MessageListView, MessageDetailView
+from .views.message_template import MessageTemplateView, MessageTemplateUploadFileView
 
 app_name = 'core'
 
@@ -59,9 +60,7 @@ urlpatterns = [
 
     # message template
     # to do: fix it, this only add to ignore the error
-    path('message-template-add/', MessageAddView.as_view(), name ='message-template-add'),
-
-
-
+    path('message-template-add/', MessageTemplateView.as_view(), name='message-template-add'),
+    path('message-template-upload/', MessageTemplateUploadFileView.as_view(), name='message-template-upload'),
 
 ]

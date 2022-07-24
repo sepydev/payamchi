@@ -6,7 +6,7 @@ from django.forms import model_to_dict
 from django.shortcuts import render
 
 from ..forms.message import MessageFormPartially, MessageForm, MessageDetailForm
-from ..models import Message
+from ..models import Message, MessageStatusChoices
 
 
 class MessageAddPartiallyView(LoginRequiredMixin, views.View):
@@ -153,6 +153,7 @@ class MessageDetailView(LoginRequiredMixin, views.View):
             template_name='core/message/partials/message_detail.html',
             context={
                 'message': message,
+                'message_status': MessageStatusChoices.choices,
                 'form': form,
             }
         )

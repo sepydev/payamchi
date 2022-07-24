@@ -57,6 +57,7 @@ btnLoadMore.addEventListener('click', () => {
 })
 
 function loadMessageDetail(id, fromButton = false) {
+
     $.ajax({
             type: 'GET',
             url: `/message-detail/${id}/`,

@@ -173,15 +173,15 @@ class MessageDetailForm(forms.ModelForm):
         Field('caption'),
         Row(
             Div(Field('message_template'), css_class='col-9'),
-            Div(HTML('''<label class='p-3'> <span></span> </label>
+            Div(HTML('''<label class='p-2'> <span></span> </label>
             <div> <a href="javascript:void(0)"  >
-                 <button class="btn btn-success p-2 btn-sm"
+                 <button class="btn btn-success p-2 m-0 btn-sm"
                     data-action="{% url 'core:message-template-add' %}"
                     data-title="قالب پیام جدید"
                     data-subtitle=""
                     data-icon="fa-keyboard-o"
-                    data-button-save-label="ادامه"
-                    onclick="openMyModal(event,null,null); return false;">
+                    data-button-save-label="ذخیره"
+                    onclick="openMyModal(event,loadMessageDetail,{{ message.id }}); return false;">
                 جدید
                 </button>
                 </a> </div>'''
