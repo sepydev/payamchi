@@ -14,8 +14,8 @@
             {% endfor %}
         </div>
 
-        <form class="form" nocalidate autocomplete="off"
-              action="{% url 'core:message-add' %}" method="post">
+        <form class="form" nocalidate autocomplete="off" id="detail_form"
+              action="{% url 'core:message-detail' pk=message.id %}" method="post">
             {% if form.errors %}
                 <div style="display: none" class="invalid-feedback"></div>
             {% endif %}
@@ -23,6 +23,8 @@
             {% csrf_token %}
             {% crispy form %}
         </form>
+    <button class="btn btn-primary" onclick="saveMessage({{ message.id }})">ذخیره</button>
+
     </div>
 </div>
 

@@ -192,8 +192,7 @@ class MessageDetailForm(forms.ModelForm):
         Field('effort', css_class='hide_arrow_number'),
         Field('send_effort_delay', css_class='hide_arrow_number'),
         Div(Field('send_date'), css_class='d-none'),
-
-        Submit('submit', 'ذخیره', css_class='col-3 btn btn-primary btn-block form-submit-row')
+        # Submit('submit', 'ذخیره', css_class='col-3 btn btn-primary btn-block form-submit-row')
 
     )
 

@@ -93,3 +93,43 @@ function loadMessageDetail(id, fromButton = false) {
 
 }
 
+function saveMessage(id){
+    detail_form = document.getElementById('#detail_form')
+    let tokenizers = jQuery("[name=csrfmiddlewaretoken]").val();
+    let data  = $('#detail_form').serialize()
+    console.log(data)
+    $.ajax({
+        type: 'POST',
+        url: `/message-detail/${id}/`,
+        data ,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRFToken', tokenizers);
+        },
+        success: function (response) {
+            messageDetail.innerHTML = response
+            $('#id_send_date_persian').MdPersianDateTimePicker({
+                targetTextSelector: '#id_send_date_persian',
+                targetDateSelector: '#id_send_date',
+                enableTimePicker: true,
+                dateFormat: 'yyyy-MM-dd hh:mm',
+            });
+
+            $.ajax({
+                type: 'GET',
+                url: `/message-list/0/`,
+                data: `message_id=${id}`,
+                success: function (response) {
+                    $(`#message-${id}`)[0].innerHTML = response
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            })
+
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log('SERVER ERROR: ' + thrownError);
+        }
+
+    })
+}

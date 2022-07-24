@@ -157,3 +157,24 @@ class MessageDetailView(LoginRequiredMixin, views.View):
                 'form': form,
             }
         )
+
+    def post(self, request, pk):
+        form = MessageDetailForm(request.user, request.POST)
+        message = Message.objects.filter(pk=pk, user=request.user)
+
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            cleaned_data.pop('send_date_persian')
+            message.update(
+                **form.cleaned_data,
+            )
+
+        return render(
+            request,
+            template_name='core/message/partials/message_detail.html',
+            context={
+                'message': message.first(),
+                'message_status': MessageStatusChoices.choices,
+                'form': form,
+            }
+        )

@@ -57,6 +57,7 @@ urlpatterns = [
     path('messages/', MessageView.as_view(), name='messages'),
     path('message-list/<int:upper>/', MessageListView.as_view(), name='message-list'),
     path('message-detail/<int:pk>/', MessageDetailView.as_view(), name='message-detail'),
+    # path('message-detail/', MessageDetailView.as_view(), name='message-detail'),
 
     # message template
     # to do: fix it, this only add to ignore the error
