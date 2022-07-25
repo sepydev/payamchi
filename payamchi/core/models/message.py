@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .contact_define_label import ContactDefineLabel
 from .channel import Channel
 from .base_model import BaseModel
 from .campaign import Campaign
@@ -57,6 +58,11 @@ class Message(BaseModel):
     labels = models.ManyToManyField(
         MessageDefineLabel,
         verbose_name=_('برچسب ها'),
+        blank=True,
+    )
+    contact_labels = models.ManyToManyField(
+        ContactDefineLabel,
+        verbose_name=_('برچسب های مخاطب'),
         blank=True,
     )
 
