@@ -23,6 +23,7 @@ class MessageTemplate(BaseModel):
         max_length=10,
     )
     message_content = models.TextField(verbose_name=_('محتوای پیام'))
+    message_length = models.IntegerField(verbose_name="طول پیام")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('نام کاربری'))
 
     class Meta:
