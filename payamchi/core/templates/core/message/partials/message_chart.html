@@ -1,0 +1,54 @@
+{% load jformat %}
+
+<div class="row">
+    <div class="table-responsive">
+        <table class="table primary-table-bordered">
+            <thead class="thead-primary">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">تعداد</th>
+                <th scope="col">تعرفه</th>
+                <th scope="col">مدت پیام</th>
+                <th scope="col">جمع ریال</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for contact_type in contact_types %}
+                <tr>
+                    <td>{{ contact_type.title }}</td>
+                    <td>{{ contact_type.count }}</td>
+                    <td>{{ contact_type.unit_price }}</td>
+                    <td>{{ contact_type.message_length }}</td>
+                    <td>{{ contact_type.cost }}</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-xl-6 col-lg-6">
+
+        <div class="card-header">
+            <h4 class="card-title">وضعیت اعتبار شماره ها</h4>
+        </div>
+        <div class="card-body">
+            <div id="chartCredit" class="morris_chart_height overflow-hidden"></div>
+        </div>
+
+    </div>
+    <div class="col-xl-6 col-lg-6">
+
+        <div class="card-header">
+            <h4 class="card-title">نوع شماره های تماس</h4>
+        </div>
+        <div class="card-body">
+            <div id="chartContactType" class="morris_chart_height overflow-hidden"></div>
+        </div>
+
+    </div>
+</div>

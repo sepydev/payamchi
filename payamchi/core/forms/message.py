@@ -192,6 +192,35 @@ class MessageDetailForm(forms.ModelForm):
         Field('effort', css_class='hide_arrow_number'),
         Field('send_effort_delay', css_class='hide_arrow_number'),
         Div(Field('send_date'), css_class='d-none'),
+        HTML('''
+        <div  id = 'div_id_messageLabels'   class="form-group row col-12">
+                <label class="col-4 center">برچسب های پیام</label>
+                <select id="messageLabels" multiple="multiple" name="state">
+                    {% for message_label in message_labels %}#}
+                        <option class="test" id="{{ message_label.id }}"
+                                selected="selected"
+                                value="{{ message_label.id }}"
+                        >
+                            {{ message_label.caption }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="div_id_contactLabels" class="form-group row col-12">
+                <label class="col-4 center">انتخاب مخاطبان</label>
+                <select id="contactLabels" multiple="multiple" name="state">
+                    {% for contact_label in contact_labels %}#}
+                        <option class="test" id="{{ contact_label.id }}"
+                                selected="selected"
+                          value="{{ contact_label.id }}"
+                        >
+                            {{ contact_label.caption }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        '''
+             ),
         # Submit('submit', 'ذخیره', css_class='col-3 btn btn-primary btn-block form-submit-row')
 
     )

@@ -60,6 +60,9 @@
 
 
 {% block scripts %}
+    <script src="{% static 'vendor/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'vendor/morris/morris.min.js' %}"></script>
+
     <script src="{% static 'js/message.js' %}"></script>
     <script>
         loadMessageDetail({{ message.id }}, true)

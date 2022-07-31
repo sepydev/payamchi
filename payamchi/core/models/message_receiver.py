@@ -16,6 +16,11 @@ class MessageReceiverStatusChoices(models.IntegerChoices):
 
 
 class MessageReceiver(BaseModel):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('نام کاربری')
+    )
     message = models.ForeignKey(
         Message,
         verbose_name=_('پیام'),
@@ -55,3 +60,6 @@ class MessageReceiver(BaseModel):
     class Meta:
         verbose_name = 'دریافت کننده پیام'
         verbose_name_plural = 'دریافت کننده های پیام'
+
+    def __str__(self):
+        return self.contact.caption + ' ' + self.message.caption

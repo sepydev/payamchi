@@ -14,3 +14,6 @@ class MessageDefineLabel(BaseModel):
     class Meta:
         verbose_name = 'برچسب پیام'
         verbose_name_plural = 'برچسب های پیام ها'
+
+    def __str__(self):
+        return self.caption
